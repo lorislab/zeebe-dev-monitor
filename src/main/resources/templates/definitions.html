@@ -1,0 +1,46 @@
+
+{#include template}
+    <div class="flex flex-row-reverse pr-6">
+        <div>
+            {#button dialog='new-deploy' }New Deployment{/button}
+        </div>
+    </div>
+
+    {#dialog id='new-deploy' title='New Deployment' form=true action="/process"}
+        {#body}
+           {#formFile id='file' title='Upload new process file' /}
+        {/body}
+        {#footer}
+            {#dialogCloseButton /}
+            {#button dialog-dismiss=true type='submit'}Deploy{/button}
+        {/footer}
+    {/dialog}
+
+    {#tableCount id="def-count" count=count description='process definitions'}{/tableCount}
+
+    {#table}
+        {#header}
+            {#tableHeader}Process Definition Key{/tableHeader}
+            {#tableHeader}BPMN process id{/tableHeader}
+            {#tableHeader}Version{/tableHeader}
+            {#tableHeader}#Active{/tableHeader}
+            {#tableHeader}#Ended{/tableHeader}
+            {#tableHeader}Deployment Time{/tableHeader}
+        {/header}
+        {#body}
+            {#for definition in definitions}
+                {#tableRow}
+                    {#tableCol}
+                        {#tableLink href=str:format("/process/%s",definition.key)}{definition.key}{/tableLink}
+                    {/tableCol}
+                    {#tableCol}{definition.bpmnProcessId}{/tableCol}
+                    {#tableCol}{definition.version}{/tableCol}
+                    {#tableCol}{definition.countRunning}{/tableCol}
+                    {#tableCol}{definition.countEnded}{/tableCol}
+                    {#tableCol}{definition.timestamp}{/tableCol}
+                {/tableRow}
+            {/for}
+        {/body}
+    {/table}
+
+{/include}

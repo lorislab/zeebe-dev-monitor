@@ -1,0 +1,22 @@
+{#tableCount id="instance-error-count" count=count description='errors' /}
+
+{#table}
+    {#header}
+        {#tableHeader}Position{/tableHeader}
+        {#tableHeader}Error Event Position{/tableHeader}
+        {#tableHeader}Exception Message{/tableHeader}
+        {#tableHeader}Stacktrace{/tableHeader}
+        {#tableHeader}Time{/tableHeader}
+    {/header}
+    {#body}
+        {#for item in items}
+            {#tableRow}
+                {#tableCol}{item.position}{/tableCol}
+                {#tableCol}{item.errorEventPosition}{/tableCol}
+                {#tableCol}{item.exceptionMessage}{/tableCol}
+                {#tableCol}{item.stacktrace}{/tableCol}
+                {#tableCol}{item.timestamp}{/tableCol}
+            {/tableRow}
+        {/for}
+    {/body}
+{/table}

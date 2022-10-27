@@ -1,0 +1,73 @@
+.bpmn-badge-active {
+    background-color: rgba(66, 180, 21, 0.7);
+    color: White;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 5px;
+    min-height: 16px;
+    width: 50px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.bpmn-badge-inactive {
+    background-color: rgba(148, 148, 150, 0.7);
+    color: White;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 5px;
+    min-height: 16px;
+    width: 50px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.bpmn-info {
+    background-color: rgba(0, 123, 255, 255);
+    color: White;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 5px;
+    min-height: 16px;
+    width: 100px;
+    text-align: center;
+}
+
+.bpmn-element-completed .djs-visual * {
+    stroke: rgba(66, 180, 21, 0.7) !important;
+    stroke-width: 2px !important;
+    fill: rgba(66, 180, 21, 0.3) !important;
+}
+
+.bpmn-element-active .djs-visual > :nth-child(1) {
+    stroke: rgba(66, 180, 21, 0.7) !important;
+}
+
+.bpmn-element-incident .djs-visual * {
+    stroke: rgba(255, 47, 0, 0.9) !important;
+    fill: rgba(255, 47, 0, 0.3) !important;
+    stroke-width: 1px !important;
+}
+
+.bpmn-badge-incident {
+    background-color: rgba(255, 47, 0, 0.9);
+    color: White;
+    border-radius: 5px;
+    font-size: 24px;
+    padding: 5px;
+    min-height: 16px;
+    width: 50px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.bpmn-element-selected .djs-visual > :nth-child(1) {
+    stroke: rgba(0, 125, 255, 0.7) !important;
+    stroke-dasharray: 5;
+    stroke-width: 2px !important;
+}
+
+.bpmn-io-viewer-height {
+    height: 500px;
+}

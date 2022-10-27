@@ -1,0 +1,22 @@
+{#tableCount id="instance-count" count=count description='process instances' /}
+
+{#table}
+    {#header}
+        {#tableHeader}Process Instance Key{/tableHeader}
+        {#tableHeader}State{/tableHeader}
+        {#tableHeader}Start Time{/tableHeader}
+        {#tableHeader}End Time{/tableHeader}
+    {/header}
+    {#body}
+        {#for instance in instances}
+            {#tableRow}
+                {#tableCol}
+                    {#tableLink href=str:format("/instance/%s",instance.key)}{instance.key}{/tableLink}
+                {/tableCol}
+                {#tableCol}{instance.state}{/tableCol}
+                {#tableCol}{instance.start}{/tableCol}
+                {#tableCol}{instance.end}{/tableCol}
+            {/tableRow}
+        {/for}
+    {/body}
+{/table}

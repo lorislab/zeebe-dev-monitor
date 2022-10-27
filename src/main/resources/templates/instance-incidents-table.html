@@ -1,0 +1,52 @@
+{#tableCount id="instance-incident-count" count=count description='incidents' /}
+
+{#table}
+    {#header}
+        {#tableHeader}Element Id{/tableHeader}
+        {#tableHeader}Element Instance Key{/tableHeader}
+        {#tableHeader}Incident Key{/tableHeader}
+        {#tableHeader}Error Type{/tableHeader}
+        {#tableHeader}Error Message{/tableHeader}
+        {#tableHeader}State{/tableHeader}
+        {#tableHeader}Created Time{/tableHeader}
+        {#tableHeader}Actions{/tableHeader}
+    {/header}
+    {#body}
+        {#for item in items}
+            {#tableRow}
+                {#tableCol}{#id}{item.elementId}{/id}{/tableCol}
+                {#tableCol}{item.elementInstanceKey}{/tableCol}
+                {#tableCol}{item.key}{/tableCol}
+                {#tableCol}{item.errorType}{/tableCol}
+                {#tableCol}{item.errorMessage}{/tableCol}
+                {#tableCol}{item.state}{/tableCol}
+                {#tableCol}{item.created}{/tableCol}
+                {#tableCol}
+                    {#if !item.isResolved}
+                        {#tableButton dialog=str:format("in-%s", item.key) }Resolve{/tableButton}
+                    {/if}
+                {/tableCol}
+            {/tableRow}
+        {/for}
+    {/body}
+{/table}
+
+{#for item in items}
+    {#dialog id=str:format("in-%s", item.key) title='Resolve Incident'}
+        {#body}
+                {#formText id=str:format("in-msg-%s", item.key) title="Make sure that you fixed the error" value=item.errorMessage disabled=true /}
+                {#if item.jobKey > 0}
+                    {#formInput type='number' min='0' id=str:format("in-retries-%s", item.key) title="Remaining Retries" value='0' /}
+                {/if}
+        {/body}
+        {#footer}
+            {#dialogCloseButton /}
+            {#if item.jobKey > 0}
+                {#button dialog-dismiss=true onclick=str:format("resolveJobIncident(%s, %s, 'in-retries-%s')", item.key, item.jobKey, item.key)}Resolve{/button}
+            {#else}
+                {#button dialog-dismiss=true onclick=str:format("resolveProcessInstanceIncident(%s)", item.key)}Resolve{/button}
+            {/if}
+        {/footer}
+    {/dialog}
+
+{/for}

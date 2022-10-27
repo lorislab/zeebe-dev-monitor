@@ -1,0 +1,23 @@
+
+{#tableCount id="def-timer-count" count=count description='timers'}{/tableCount}
+
+{#table}
+    {#header}
+        {#tableHeader}Element Id{/tableHeader}
+        {#tableHeader}Due Date{/tableHeader}
+        {#tableHeader}Repetitions{/tableHeader}
+        {#tableHeader}State{/tableHeader}
+        {#tableHeader}Time{/tableHeader}
+    {/header}
+    {#body}
+        {#for timer in timers}
+            {#tableRow}
+                {#tableCol}{#id}{timer.targetElementId}{/id}{/tableCol}
+                {#tableCol}{timer.dueDate}{/tableCol}
+                {#tableCol}{timer.repetitions}{/tableCol}
+                {#tableCol}{timer.state}{/tableCol}
+                {#tableCol}{timer.timestamp}{/tableCol}
+            {/tableRow}
+        {/for}
+    {/body}
+{/table}

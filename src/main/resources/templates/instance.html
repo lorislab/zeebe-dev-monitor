@@ -1,0 +1,100 @@
+{#include template}
+    <div class="flex flex-row-reverse pr-6">
+        <div>
+            {#button enabled=instance.detail.isRunning dialog=str:format("s-%s", instance.detail.key)}Set variable{/button}
+            {#button enabled=instance.detail.isRunning dialog=str:format("cancel-%s", instance.detail.key)}Cancel{/button}
+        </div>
+    </div>
+
+    {#if instance.detail.isRunning}
+        {#with instance}
+        {#dialog id=str:format("s-%s", detail.key) title='Set variable'}
+            {#body}
+                {#formSelect id=str:format("s-key-%s", detail.key) title="Scope Key"}
+                    {#for scope in activeScopes}
+                        {#selectItem value=scope.scopeKey }{scope.scopeKey} ({scope.scopeName}){/selectItem}
+                    {/for}
+                {/formSelect}
+                {#formInput id=str:format("s-name-%s", detail.key) title="Name" /}
+                {#formText id=str:format("s-value-%s", detail.key) title="Value" value='' placeholder='JSON parameter value' /}
+            {/body}
+            {#footer}
+                {#dialogCloseButton /}
+                {#button dialog-dismiss=true onclick=str:format("setVariable('s-key-%s','s-name-%s','s-value-%s')", detail.key, detail.key, detail.key)}Set{/button}
+            {/footer}
+        {/dialog}
+        {#dialog id=str:format("cancel-%s", detail.key) title='Cancel process instance'}
+            {#body}Are you sure?{/body}
+            {#footer}
+                {#dialogCloseButton}No{/dialogCloseButton}
+                {#button color='red' dialog-dismiss=true onclick=str:format("cancelInstance(%s)", detail.key)}Yes{/button}
+            {/footer}
+        {/dialog}
+        {/with}
+    {/if}
+
+    <div class="flex flex-col">
+        <div class="flex-initial w-full">
+            {#diagram id=instance.detail.processDefinitionKey resource=instance.resource instance=instance extend=true}{/diagram}
+        </div>
+        <div class="flex-initial">
+            {#tab id='instance'}
+                {#header}
+                    {#tabHeader id='info' active=true}Info{/tabHeader}
+                    {#tabHeader id='variables' active=false}Variables{/tabHeader}
+                    {#tabHeader id='audit' active=false}Audit Log{/tabHeader}
+                    {#tabHeader id='incidents' active=false}Incidents{/tabHeader}
+                    {#tabHeader id='jobs' active=false}Jobs{/tabHeader}
+                    {#tabHeader id='messages' active=false}Message Subscriptions{/tabHeader}
+                    {#tabHeader id='timers' active=false}Timers{/tabHeader}
+                    {#tabHeader id='called' active=false}Called Process Instances{/tabHeader}
+                    {#tabHeader id='errors' active=false}Errors{/tabHeader}
+                {/header}
+                {#tabContent id='info' active=true}
+                    {#info}
+                        {#with instance}
+                        {#infoItem title="Key"}{detail.key}{/infoItem}
+                        {#infoItem title="BPMN process id"}{detail.bpmnProcessId}{/infoItem}
+                        {#infoItem title="Version"}{detail.version}{/infoItem}
+                        {#infoItem title="Process Definition Key"}
+                             {#tableLink href=str:format("/process/%s",detail.processDefinitionKey)}{detail.processDefinitionKey}{/tableLink}
+                        {/infoItem}
+                        {#infoItem title="State"}{detail.state}{/infoItem}
+                        {#infoItem title="Start time"}{detail.start}{/infoItem}
+                        {#infoItem title="End time"}{detail.end}{/infoItem}
+                        {#if detail.parentProcessInstanceKey > 0}
+                            {#infoItem title="Parent Process Instance"}{detail.parentProcessInstanceKey}{/infoItem}
+                            {#infoItem title="Parent Process Id"}{detail.parentBpmnProcessId}{/infoItem}
+                        {/if}
+                        {/with}
+                    {/info}
+                {/tabContent}
+                {#tabContent id='variables' active=false}
+                    {#include instance-variables-table variables=instance.variables count=instance.variablesCount isRunning=instance.detail.isRunning /}
+                {/tabContent}
+                {#tabContent id='audit' active=false}
+                    {#include instance-audit-log-table items=instance.auditLogEntries count=instance.auditLogEntriesCount /}
+                {/tabContent}
+                {#tabContent id='incidents' active=false}
+                    {#include instance-incidents-table items=instance.incidents count=instance.incidentsCount /}
+                {/tabContent}
+                {#tabContent id='jobs' active=false}
+                    {#include instance-jobs-table items=instance.jobs count=instance.jobsCount /}
+                {/tabContent}
+                {#tabContent id='messages' active=false}
+                    {#include instance-messages-table items=instance.messageSubscriptions count=instance.messageSubscriptionsCount /}
+                {/tabContent}
+                {#tabContent id='timers' active=false}
+                    {#include instance-timers-table items=instance.timers count=instance.timersCount /}
+                {/tabContent}
+                {#tabContent id='called' active=false}
+                    {#include instance-called-processes-table items=instance.callProcessInstances count=instance.callProcessInstancesCount /}
+                {/tabContent}
+                {#tabContent id='errors' active=false}
+                    {#include instance-errors-table items=instance.errors count=instance.errorsCount /}
+                {/tabContent}
+            {/tab}
+        </div>
+    </div>
+
+{/include}

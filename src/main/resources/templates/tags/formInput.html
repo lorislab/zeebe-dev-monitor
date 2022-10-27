@@ -1,0 +1,23 @@
+{@java.lang.String type}
+{@java.lang.String min}
+{@java.lang.String value}
+{@java.lang.Boolean disabled}
+
+{#let type?='text' disabled?=false value?='' min?=''}
+
+<div class="form-group mb-6">
+    <label for="{id}" class="form-label inline-block mb-2 text-gray-700">{title}</label>
+    <input type="{type}" id="{id}"
+           {#if min} min="{min}" {/if}
+           {#if disabled}
+               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-gray-100 bg-clip-padding
+                            border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+               readonly
+           {#else}
+               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
+                            border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+           {/if}
+           aria-describedby="{title}" placeholder="{title}" value="{value}">
+</div>
+
+{/let}

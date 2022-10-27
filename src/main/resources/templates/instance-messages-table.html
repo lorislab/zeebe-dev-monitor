@@ -1,0 +1,32 @@
+{#tableCount id="instance-msg-count" count=count description='messages' /}
+
+{#table}
+    {#header}
+        {#tableHeader}Element Id{/tableHeader}
+        {#tableHeader}Element Instance Key{/tableHeader}
+        {#tableHeader}Message Name{/tableHeader}
+        {#tableHeader}Correlation Key{/tableHeader}
+        {#tableHeader}State{/tableHeader}
+        {#tableHeader}Time{/tableHeader}
+        {#tableHeader}Actions{/tableHeader}
+    {/header}
+    {#body}
+        {#for item in items}
+            {#tableRow}
+                {#tableCol}{#if item.targetFlowNodeId}{#id}{item.targetFlowNodeId}{/id}{/if}{/tableCol}
+                {#tableCol}{item.elementInstanceKey}{/tableCol}
+                {#tableCol}{item.messageName}{/tableCol}
+                {#tableCol}{item.correlationKey}{/tableCol}
+                {#tableCol}{item.state}{/tableCol}
+                {#tableCol}{item.timestamp}{/tableCol}
+                {#tableCol}
+                    {#if item.open}
+                        {#tableButton dialog=str:format("ms-%s", item.id) }Publish Message{/tableButton}
+                    {/if}
+                {/tableCol}
+            {/tableRow}
+        {/for}
+    {/body}
+{/table}
+
+{#include message-subscriptions-dialogs  messageSubscriptions=items /}

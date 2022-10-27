@@ -1,0 +1,51 @@
+{#include template}
+    <div class="flex flex-row-reverse pr-6">
+        <div>
+            {#button dialog='create-instance'}New Instance{/button}
+        </div>
+    </div>
+    {#dialog id='create-instance' title='New Instance'}
+        {#body}
+                {#formText id='new-instance-param' title="Variables" value='' placeholder='{"param1":"value", "param2": 200 }' /}
+        {/body}
+        {#footer}
+            {#dialogCloseButton /}
+            {#button dialog-dismiss=true onclick=str:format("createInstance(%s,'new-instance-param')", definition.key)}Create{/button}
+        {/footer}
+    {/dialog}
+    <div class="flex flex-col">
+        <div class="flex-initial w-full">
+            {#diagram id=definition.key resource=resource instance=instance extend=false}{/diagram}
+        </div>
+        <div class="flex-initial">
+            {#tab id='definition'}
+                {#header}
+                    {#tabHeader id='info' active=true}Info{/tabHeader}
+                    {#tabHeader id='instances' active=false}Instances{/tabHeader}
+                    {#tabHeader id='messages' active=false}Message Subscriptions{/tabHeader}
+                    {#tabHeader id='timers' active=false}Timers{/tabHeader}
+                {/header}
+                {#tabContent id='info' active=true}
+                    {#info}
+                        {#infoItem title="Key"}{definition.key}{/infoItem}
+                        {#infoItem title="BPMN process id"}{definition.bpmnProcessId}{/infoItem}
+                        {#infoItem title="Version"}{definition.version}{/infoItem}
+                        {#infoItem title="Deploy time"}{definition.timestamp}{/infoItem}
+                        {#infoItem title="#Active"}{definition.countRunning}{/infoItem}
+                        {#infoItem title="#Ended"}{definition.countEnded}{/infoItem}
+                    {/info}
+                {/tabContent}
+                {#tabContent id='instances' active=false}
+                    {#include instances-table instances=instances count=instances_count /}
+                {/tabContent}
+                {#tabContent id='messages' active=false}
+                    {#include definition-message-subscriptions-table messageSubscriptions=messageSubscriptions count=messageSubscriptions.size /}
+                {/tabContent}
+                {#tabContent id='timers' active=false}
+                    {#include definition-timers-table  timers=timers count=timers.size /}
+                {/tabContent}
+            {/tab}
+        </div>
+    </div>
+
+{/include}

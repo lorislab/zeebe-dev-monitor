@@ -1,0 +1,46 @@
+{#include template}
+    <div class="flex flex-row-reverse pr-6">
+        <div>
+            {#button dialog='msg-create' }New Message{/button}
+        </div>
+    </div>
+
+    {#dialog id="msg-create" title='New Message'}
+        {#body}
+                {#formInput id="ms-name" title="Message Name" value='' /}
+                {#formInput id="ms-key" title="Correlation Key" value='' /}
+                {#formText id="ms-value" title="Parameters" value='' placeholder='{"param1":"value", "param2": 200 }' /}
+                {#formInput id="ms-time" title="Time to live (duration)" value='PT0S' /}
+        {/body}
+        {#footer}
+            {#dialogCloseButton /}
+            {#button dialog-dismiss=true onclick="publishMessageSubscription('ms-name','ms-key','ms-value','ms-time')" }
+                Publish
+            {/button}
+        {/footer}
+    {/dialog}
+
+    {#tableCount id="msg-count" count=count description='messages'}{/tableCount}
+
+    {#table}
+        {#header}
+            {#tableHeader}Name{/tableHeader}
+            {#tableHeader}Correlation Key{/tableHeader}
+            {#tableHeader}Message Id{/tableHeader}
+            {#tableHeader}State{/tableHeader}
+            {#tableHeader}Time{/tableHeader}
+        {/header}
+        {#body}
+            {#for message in messages}
+                {#tableRow}
+                    {#tableCol}{message.name}{/tableCol}
+                    {#tableCol}{message.correlationKey}{/tableCol}
+                    {#tableCol}{message.messageId}{/tableCol}
+                    {#tableCol}{message.state}{/tableCol}
+                    {#tableCol}{message.timestamp}{/tableCol}
+                {/tableRow}
+            {/for}
+        {/body}
+    {/table}
+
+{/include}

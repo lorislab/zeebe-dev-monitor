@@ -1,0 +1,30 @@
+{#include template}
+
+    {#tableCount id="error-count" count=count description='errors'}{/tableCount}
+
+    {#table}
+        {#header}
+            {#tableHeader}Position{/tableHeader}
+            {#tableHeader}Error Event Position{/tableHeader}
+            {#tableHeader}Process Instance Key{/tableHeader}
+            {#tableHeader}Exception Message{/tableHeader}
+            {#tableHeader}Stacktrace{/tableHeader}
+            {#tableHeader}Time{/tableHeader}
+        {/header}
+        {#body}
+            {#for error in errors}
+                {#tableRow}
+                    {#tableCol}{error.position}{/tableCol}
+                    {#tableCol}{error.errorEventPosition}{/tableCol}
+                    {#tableCol}
+                        {#tableLink href=str:format("/instance/%s",error.processInstanceKey)}{error.processInstanceKey}{/tableLink}
+                    {/tableCol}
+                    {#tableCol}{error.exceptionMessage}{/tableCol}
+                    {#tableCol}{error.stacktrace}{/tableCol}
+                    {#tableCol}{error.timestamp}{/tableCol}
+                {/tableRow}
+            {/for}
+        {/body}
+    {/table}
+
+{/include}

@@ -1,0 +1,34 @@
+{#include template}
+
+    {#tableCount id="incident-count" count=count description='open incidents'}{/tableCount}
+
+    {#table}
+        {#header}
+            {#tableHeader}Incident Key{/tableHeader}
+            {#tableHeader}Process Instance Key{/tableHeader}
+            {#tableHeader}BPMN process id{/tableHeader}
+            {#tableHeader}Process Definition Key{/tableHeader}
+            {#tableHeader}Error Type{/tableHeader}
+            {#tableHeader}State{/tableHeader}
+            {#tableHeader}Created Time{/tableHeader}
+        {/header}
+        {#body}
+            {#for incident in incidents}
+                {#tableRow}
+                    {#tableCol}{incident.key}{/tableCol}
+                    {#tableCol}
+                        {#tableLink href=str:format("/instance/%s",incident.processInstanceKey)}{incident.processInstanceKey}{/tableLink}
+                    {/tableCol}
+                    {#tableCol}{incident.bpmnProcessId}{/tableCol}
+                    {#tableCol}
+                        {#tableLink href=str:format("/process/%s",incident.processDefinitionKey)}{incident.processDefinitionKey}{/tableLink}
+                    {/tableCol}
+                    {#tableCol}{incident.errorType}{/tableCol}
+                    {#tableCol}{incident.state}{/tableCol}
+                    {#tableCol}{incident.created}{/tableCol}
+                {/tableRow}
+            {/for}
+        {/body}
+    {/table}
+
+{/include}

@@ -1,0 +1,96 @@
+<div id="canvas" class="bpmn-io-viewer-height m-6">
+    <div id="canvasWarning" style="display: none" class="alert alert-warning" role="alert"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => renderDiagram(), false);
+
+    const RAW_BPMN_RESOURCE = `{resource}`;
+    let canvas;
+
+    async function renderDiagram() {
+        let BpmnViewer = window.BpmnJS;
+        let viewer = new BpmnViewer( \{container: '#canvas', width: '100%', height: '100%'} );
+        canvas = viewer.get('canvas')
+
+        try {
+            const result = await viewer.importXML(RAW_BPMN_RESOURCE);
+            const { warnings } = result;
+            if (warnings.length > 0) {
+                console.log("Diagram warnings " + warnings);
+            }
+            addMarkers(viewer)
+        } catch (err) {
+            console.log("Diagram rendering: " + err);
+        }
+
+        let bpmnElementInfo = \{};
+        {#for bpmnInfos in instance.bpmnElementInfos}
+            bpmnElementInfo['{bpmnInfos.elementId}'] = '{bpmnInfos.info}';
+        {/for}
+
+        let infoOverlayId;
+
+        const eventBus = viewer.get("eventBus");
+        const overlays = viewer.get("overlays");
+
+        eventBus.on("element.hover", function(e) {
+            let elementId = e.element.id;
+            let info = bpmnElementInfo[elementId];
+            if (info) {
+                infoOverlayId = overlays.add(elementId, {
+                    position: {
+                        bottom: -5,
+                        left: 0
+                    },
+                    html: '<div class="bpmn-info">' + info + '</div>'
+                });
+            }
+        });
+
+        eventBus.on("element.out", function(e) {
+            if (infoOverlayId) {
+                overlays.remove(infoOverlayId);
+            }
+        });
+    }
+
+    function addMarkers(viewer) {
+        const canvas = viewer.get('canvas');
+        const overlays = viewer.get('overlays');
+
+        canvas.zoom('fit-viewport');
+
+        {#for item in instance.elementInstances}
+            addElementInstanceCounter(overlays, '{item.elementId}', {item.activeInstances}, {item.endedInstances});
+        {/for}
+
+        {#if extend}
+            {#for item in instance.activeActivities}
+                addElementInstanceActiveMarker(canvas, '{item}');
+            {/for}
+
+
+            {#for item in instance.incidentActivities}
+                addElementInstanceIncidentMarker(canvas,'{item}');
+            {/for}
+
+            {#for item in instance.incidents}
+                {#if !item.isResolved}
+                    addIncidentMarker(overlays,'{item.elementId}');
+                {/if}
+            {/for}
+
+            const injector = viewer.get('injector');
+            const elementRegistry = injector.get('elementRegistry');
+            const graphicsFactory = injector.get('graphicsFactory');
+            {#for item in instance.takenSequenceFlows}
+                markSequenceFlow(elementRegistry, graphicsFactory, '{item}');
+            {/for}
+
+            {#for item in instance.completedActivities}
+                addElementInstanceCompletedMarker(canvas, '{item}');
+            {/for}
+        {/if}
+    }
+</script>
