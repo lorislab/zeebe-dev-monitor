@@ -21,7 +21,6 @@
         <quarkus.sqlite.version>1.0.3</quarkus.sqlite.version>
         <selenide.version>6.9.0</selenide.version>
         <zeebe.testcontainers.version>3.5.2</zeebe.testcontainers.version>
-        <graalvm.version>22.2.0</graalvm.version>
     </properties>
 
     <dependencyManagement>
@@ -95,7 +94,6 @@
             <groupId>org.graalvm.nativeimage</groupId>
             <artifactId>svm</artifactId>
             <scope>provided</scope>
-            <version>${graalvm.version}</version>
         </dependency>
         <!-- TEST -->
         <dependency>
