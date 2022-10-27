@@ -21,7 +21,7 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Build and test project
-        run: mvn --batch-mode clean package -Dquarkus.container-image.build=true -Pnative -DskipTests -Dquarkus.container-image.registry=${{ env.REGISTRY }} -Dquarkus.application.version=${{ github.ref_name }}
+        run: mvn --batch-mode clean package -Dquarkus.container-image.build=true -Pnative -DskipTests -Dquarkus.container-image.registry=${{ env.REGISTRY }} -Dquarkus.application.version=${{ github.ref_name }} -Dquarkus.container-image.tag=${{ github.ref_name }}
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
