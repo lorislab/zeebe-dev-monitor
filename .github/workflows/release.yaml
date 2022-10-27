@@ -30,3 +30,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push docker image
         run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }}
+      - name: Create GitHub Release
+        uses: lorislab/changelog-action@v1.0.0
+        with:
+          args: generate --create-release --close-version --file .github/changelog.yaml
+        env:
+          CHANGELOG_TOKEN: ${{ secrets.GITHUB_TOKEN }}

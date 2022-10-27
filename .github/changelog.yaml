@@ -1,0 +1,17 @@
+sections:
+  - title: Major changes
+    labels:
+      - "release/super-feature"
+  - title: Complete changelog
+    labels:
+      - "bug"
+      - "enhancement"
+      - "dependencies"
+template: |
+  ```shell
+  docker pull ghcr.io/lorislab/zeebe-dev-monitor:{{ .Version }}
+  docker run -p 8080:8080 ghcr.io/lorislab/zeebe-dev-monitor:{{ .Version }}  
+  ```
+  {{ range $section := .Sections }}{{ if $section.Items }}### {{ $section.GetTitle }}{{ range $item := $section.Items }}
+  * [#{{ $item.GetID }}]({{ $item.GetURL }}) - {{ $item.GetTitle }}{{ end }}{{ end }}
+  {{ end }}

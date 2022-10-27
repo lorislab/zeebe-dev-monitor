@@ -21,6 +21,7 @@ env:
 
 ```shell
 docker pull ghcr.io/lorislab/zeebe-dev-monitor:latest
+docker run -p 8080:8080 ghcr.io/lorislab/zeebe-dev-monitor:latest 
 ```
 
 
