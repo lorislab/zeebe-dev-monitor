@@ -1,9 +1,9 @@
 name: Pull request build
+
 on:
-  push:
-    branches-ignore:
-      - '**'
-    pull_request:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
