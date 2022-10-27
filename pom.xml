@@ -21,7 +21,7 @@
         <quarkus.sqlite.version>1.0.3</quarkus.sqlite.version>
         <selenide.version>6.9.0</selenide.version>
         <zeebe.testcontainers.version>3.5.2</zeebe.testcontainers.version>
-        <graalvm.version>22.2.0</graalvm.version>
+        <graalvm.version>22.3.0</graalvm.version>
     </properties>
 
     <dependencyManagement>
