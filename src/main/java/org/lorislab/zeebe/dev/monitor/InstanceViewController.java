@@ -35,6 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -234,16 +235,22 @@ public class InstanceViewController {
         }
 
         // audit log
+        final List<ActivateElement> activateActivities = new ArrayList<>();
         final var bpmn = BpmnModel.loadModel(xml);
         final Map<String, String> flowElements = new HashMap<>();
-        bpmn.getModelElementsByType(FlowElement.class).forEach(e -> flowElements.put(e.getId(), Optional.ofNullable(e.getName()).orElse("")));
+        bpmn.getModelElementsByType(FlowElement.class).forEach(e -> {
+
+            String name = Optional.ofNullable(e.getName()).orElse("");
+            flowElements.put(e.getId(), name);
+
+            if (!MODIFY_UNSUPPORTED_ELEMENT_TYPES.contains(Optional.of(e.getElementType().getTypeName()))) {
+                activateActivities.add(new ActivateElement(e.getId(), name));
+            }
+        });
         List<AuditLogData> auditLogEntries = auditLogMapper.items(events, flowElements);
 
         // bpmnElementInfos
         List<BpmnElementInfoData> bpmnElementInfos = BpmnModel.loadBpmnElementInfos(bpmn);
-
-        final List<ActivateElement> activateActivities = new ArrayList<>();
-        flowElements.forEach((k,v) -> activateActivities.add(new ActivateElement(k, v)));
 
         // call process instances
         long callProcessInstancesCount = Instance.count("parentProcessInstanceKey", item.key);
@@ -314,5 +321,9 @@ public class InstanceViewController {
                                      Instance.State state, OffsetDateTime start, OffsetDateTime end,
                                      int partitionId, int version, boolean isRunning, Long parentProcessInstanceKey,
                                      String parentBpmnProcessId) {}
+
+    private static final Set<Optional<String>> MODIFY_UNSUPPORTED_ELEMENT_TYPES =
+            Set.of(BpmnElementType.UNSPECIFIED.getElementTypeName(), BpmnElementType.START_EVENT.getElementTypeName(),
+                    BpmnElementType.SEQUENCE_FLOW.getElementTypeName(), BpmnElementType.BOUNDARY_EVENT.getElementTypeName());
 
 }
