@@ -49,6 +49,7 @@
                     {#tabHeader id='timers' active=false}Timers{/tabHeader}
                     {#tabHeader id='called' active=false}Called Process Instances{/tabHeader}
                     {#tabHeader id='errors' active=false}Errors{/tabHeader}
+                    {#tabHeader id='modify' active=false}Modify{/tabHeader}
                 {/header}
                 {#tabContent id='info' active=true}
                     {#info}
@@ -92,6 +93,9 @@
                 {/tabContent}
                 {#tabContent id='errors' active=false}
                     {#include instance-errors-table items=instance.errors count=instance.errorsCount /}
+                {/tabContent}
+                {#tabContent id='modify' active=false}
+                        {#include instance-modify instance=instance /}
                 {/tabContent}
             {/tab}
         </div>

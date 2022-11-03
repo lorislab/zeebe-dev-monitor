@@ -7,6 +7,53 @@ function handleErrors(response) {
     return response;
 }
 
+function deployProcess(id) {
+    const element = document.getElementById(id);
+    const file = element.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('filename', file.name);
+
+    fetch('/api/process', { method: 'POST', body: formData } )
+        .then(handleErrors)
+        .then(r => showSuccess("Process deployed."))
+        .catch(e => showError(e));
+}
+
+function modify(scopeKey) {
+    let terminates = [];
+    let term = document.querySelectorAll('input[id^=t-]')
+    for (let t of term) {
+        if (t.checked) {
+            terminates.push(+t.title)
+        }
+    }
+    let activates = [];
+    let act = document.querySelectorAll('input[id^=a-]')
+    for (let a of act) {
+        if (a.checked) {
+            let ancestor = +document.getElementById('c-'+a.title).value;
+            let id = a.title;
+            let vars = getJSONObject('v-'+a.title);
+            activates.push({id: id, ancestor: ancestor, vars: vars})
+        }
+
+    }
+    if (terminates.length === 0 && activates.length === 0) {
+        return;
+    }
+
+    let data = { terminates: terminates, activates: activates };
+    const requestOptions = { method: 'PUT', headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify(data)
+    };
+
+    fetch('/api/instance/' + scopeKey + '/modify', requestOptions)
+        .then(handleErrors)
+        .then(r => showSuccess("Process instance modified."))
+        .catch(e => showError(e));
+}
+
 function updateVariable(scopeKey, name, elementId) {
     const obj = {};
     obj[name] = getJSONObject(elementId);
@@ -180,8 +227,12 @@ function wsConnect() {
                 showInfo('Process instance(s) of this process ' + msg.data.processDefinitionKey + ' have changed.');
             }
 
-        }
-        if (msg.type === 'CLUSTER') {
+        } else if (msg.type === 'PROCESS') {
+            let path = window.location.pathname;
+            if (path === '/process') {
+                showInfo('New processes have been deployed.');
+            }
+        } else if (msg.type === 'CLUSTER') {
             showError(msg.data.message)
         }
     }

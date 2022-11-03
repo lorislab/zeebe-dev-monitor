@@ -35,6 +35,10 @@ public class NotificationService {
         SESSIONS.remove(session);
     }
 
+    public void sendEvent(ProcessEvent data) {
+        sendEvent(new NotificationEvent(NotificationEventType.PROCESS, data));
+    }
+
     public void sendEvent(InstanceEvent data) {
         sendEvent(new NotificationEvent(NotificationEventType.PROCESS_INSTANCE, data));
     }
@@ -52,6 +56,14 @@ public class NotificationService {
     }
 
     @RegisterForReflection
+    public record ProcessEvent(ProcessEventType type) {}
+
+    @RegisterForReflection
+    public enum ProcessEventType {
+        DEPLOYED;
+    }
+
+    @RegisterForReflection
     public record ClusterEvent(String message, ClusterEventType type) {}
 
     @RegisterForReflection
@@ -64,7 +76,7 @@ public class NotificationService {
 
     @RegisterForReflection
     public enum NotificationEventType {
-        PROCESS_INSTANCE, CLUSTER;
+        PROCESS, PROCESS_INSTANCE, CLUSTER;
     }
 
     @RegisterForReflection

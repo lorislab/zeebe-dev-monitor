@@ -30,9 +30,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.RedirectionException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Files;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -62,6 +67,9 @@ public class ProcessViewController {
 
     @Inject
     ZeebeClient zeebe;
+
+    @Context
+    UriInfo info;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -100,31 +108,6 @@ public class ProcessViewController {
                 .data("timers", timerMapper.items(Timer.findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(def.key)))
                 .data("messageSubscriptions", messageSubscriptionMapper.items(MessageSubscription.findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(def.key)))
                 .data("instance", new DefinitionInstanceData(BpmnModel.loadBpmnElementInfos(xml), elementsInstances));
-    }
-
-    @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance deployProcess(@MultipartForm MultipartFormDataInput input) throws Exception {
-        if (input == null || input.getParts() == null || input.getParts().isEmpty()) {
-            return getDefinitions();
-        }
-        InputPart part = input.getParts().get(0);
-        zeebe.newDeployResourceCommand()
-                .addResourceStringUtf8(part.getBodyAsString(), getFileName(part.getHeaders()))
-                .send().join();
-        return getDefinitions();
-    }
-
-    private static String getFileName(MultivaluedMap<String, String> header) {
-        String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
-        for (String filename : contentDisposition) {
-            if ((filename.trim().startsWith("filename"))) {
-                String[] name = filename.split("=");
-                return name[1].trim().replaceAll("\"", "");
-            }
-        }
-        return "filename";
     }
 
     static final List<String> EXCLUDE_ELEMENT_TYPES = List.of(BpmnElementType.MULTI_INSTANCE_BODY.name());
