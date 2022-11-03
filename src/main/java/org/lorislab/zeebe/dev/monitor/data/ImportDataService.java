@@ -145,6 +145,8 @@ public class ImportDataService {
         Map<String, byte[]> resources = value.getResources()
                 .stream().collect(Collectors.toMap(DeploymentResource::getResourceName, DeploymentResource::getResource));
         value.getProcessesMetadata().forEach(x -> importWorkflowProcess(x, localDateTime(record.getTimestamp()), resources.get(x.getResourceName())));
+
+        instanceNotificationService.sendEvent(new NotificationService.ProcessEvent(NotificationService.ProcessEventType.DEPLOYED));
     }
 
     private void importWorkflowProcess(final ProcessMetadataValue value, LocalDateTime timestamp, byte[] resource) {

@@ -1,0 +1,58 @@
+{#with instance}
+
+    <div class="flex flex-row-reverse pr-6">
+        <div>
+            {#button color='red' enabled=instance.detail.isRunning  onclick=str:format("modify(%s)", detail.key) }Modify{/button}
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="flex-auto">
+            {#heading}Terminate activities{/heading}
+            {#table}
+                {#header}
+                    {#tableHeader}Element Instance Key{/tableHeader}
+                    {#tableHeader}Element Id{/tableHeader}
+                    {#tableHeader}{#iconCheck/}{/tableHeader}
+                {/header}
+                {#body}
+                    {#for act in terminateActiveActivities}
+                        {#tableRow}
+                            {#tableCol}{#id}{act.elementId}{/id}{/tableCol}
+                            {#tableCol}{act.key}{/tableCol}
+                            {#tableCol}{#check id=str:format("t-%s", act_index) title=act.key /}{/tableCol}
+                        {/tableRow}
+                    {/for}
+                {/body}
+            {/table}
+        </div>
+        <div class="flex-auto ml-2">
+            {#heading}Activate activities{/heading}
+            {#table}
+                {#header}
+                    {#tableHeader}Element Id{/tableHeader}
+                    {#tableHeader}Ancestor{/tableHeader}
+                    {#tableHeader}Variables{/tableHeader}
+                    {#tableHeader}{#iconCheck /}{/tableHeader}
+                {/header}
+                {#body}
+                    {#for item in activateActivities}
+                        {#tableRow}
+                            {#tableCol}{#id}{item.id}{/id}{/tableCol}
+                            {#tableCol}
+                                {#select id=str:format("c-%s", item.id) title='Ancestor'}
+                                    {#selectItem value='-1' } --- {/selectItem}
+                                    {#for term in ancestorActivities}
+                                        {#selectItem value=term.key }{term.key} ({term.elementId}){/selectItem}
+                                    {/for}
+                                {/select}
+                            {/tableCol}
+                            {#tableCol}{#text id=str:format("v-%s", item.id) rows=1 value='' placeholder='{"p1":"abc","p2":20}' /}{/tableCol}
+                            {#tableCol}{#check id=str:format("a-%s", item_index) title=item.id /}{/tableCol}
+                        {/tableRow}
+                    {/for}
+                {/body}
+            {/table}
+        </div>
+    </div>
+
+{/with}

@@ -147,12 +147,16 @@ public class InstanceViewController {
             }
         });
 
+        final List<ElementInstance> terminateActiveActivities = new ArrayList<>();
+        final List<ElementInstance> ancestorActivities = new ArrayList<>();
         final List<String> activeActivitiesTmp =
                 events.stream()
-                        .filter(e -> e.intent == ElementInstance.Intent.ELEMENT_ACTIVATED)
                         .filter(e -> !BpmnElementType.PROCESS.getElementTypeName().get().equals(e.bpmnElementType))
+                        .filter(e -> e.intent == ElementInstance.Intent.ELEMENT_ACTIVATED)
+                        .peek(ancestorActivities::add)
+                        .filter(e -> !completedActivities.contains(e.elementId))
+                        .peek(terminateActiveActivities::add)
                         .map(e -> e.elementId)
-                        .filter(e -> !completedActivities.contains(e))
                         .toList();
 
         final List<ElementInstanceStateData> elementStates =
@@ -238,6 +242,9 @@ public class InstanceViewController {
         // bpmnElementInfos
         List<BpmnElementInfoData> bpmnElementInfos = BpmnModel.loadBpmnElementInfos(bpmn);
 
+        final List<ActivateElement> activateActivities = new ArrayList<>();
+        flowElements.forEach((k,v) -> activateActivities.add(new ActivateElement(k, v)));
+
         // call process instances
         long callProcessInstancesCount = Instance.count("parentProcessInstanceKey", item.key);
         List<CalledProcessInstanceData> callProcessInstances = null;
@@ -251,10 +258,12 @@ public class InstanceViewController {
                 incidentActivities, callProcessInstances, callProcessInstancesCount, incidents, incidentCount, jobs,
                 jobCount, messageSubscriptions,
                 messageSubscriptionCount, timers, timerCount, errors, errorCount, variables, variableCount,
-                bpmnElementInfos, completedItems));
+                bpmnElementInfos, completedItems, terminateActiveActivities, activateActivities, ancestorActivities));
     }
 
 
+    @RegisterForReflection
+    public record ActivateElement(String id, String name) {};
     @RegisterForReflection
     public record InstanceWrapper(InstanceDetailData detail, RawString resource, List<ElementInstanceStateData> elementInstances,
                                   List<ActiveScopeData> activeScopes, List<String> activeActivities, List<String> takenSequenceFlows,
@@ -264,7 +273,8 @@ public class InstanceViewController {
                                   List<MessageSubscriptionData> messageSubscriptions, long messageSubscriptionsCount,
                                   List<TimerData> timers, long timersCount, List<ErrorData> errors, long errorsCount,
                                   List<VariableData> variables, long variablesCount, List<BpmnElementInfoData> bpmnElementInfos,
-                                  Set<String> completedActivities) {}
+                                  Set<String> completedActivities, List<ElementInstance> terminateActiveActivities, List<ActivateElement> activateActivities,
+                                  List<ElementInstance> ancestorActivities) {}
     @RegisterForReflection
     public record VariableId(long scopeKey, String name) {}
 
