@@ -19,7 +19,7 @@
         <camunda.version>8.1.2</camunda.version>
         <quarkus.zeebe.version>0.7.1</quarkus.zeebe.version>
         <quarkus.sqlite.version>1.0.3</quarkus.sqlite.version>
-        <selenide.version>6.10.1</selenide.version>
+        <selenide.version>6.10.2</selenide.version>
         <zeebe.testcontainers.version>3.5.2</zeebe.testcontainers.version>
     </properties>
 
