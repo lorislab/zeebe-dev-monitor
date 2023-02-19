@@ -27,19 +27,12 @@ import org.lorislab.zeebe.dev.monitor.models.Variable;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Path("instance")
 public class InstanceViewController {
@@ -92,6 +85,10 @@ public class InstanceViewController {
     @Transactional(Transactional.TxType.NEVER)
     public TemplateInstance getInstance(@PathParam("id") Long id) {
         Instance item = Instance.findById(id);
+        if (item == null) {
+            throw new RedirectionException(Response.Status.TEMPORARY_REDIRECT, URI.create("/instance"));
+        }
+
         String parentBpmnProcessId = null;
         if (item.parentProcessInstanceKey > 0) {
             Instance tmp = Instance.findById(item.parentProcessInstanceKey);
@@ -243,6 +240,10 @@ public class InstanceViewController {
                 activateActivities.add(new ActivateElement(e.getId(), name));
             }
         });
+
+        // show the latest change first
+        Collections.reverse(events);
+
         List<AuditLogData> auditLogEntries = auditLogMapper.items(events, flowElements);
 
         // bpmnElementInfos

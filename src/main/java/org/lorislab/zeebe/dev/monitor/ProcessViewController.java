@@ -6,11 +6,6 @@ import io.quarkus.qute.RawString;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-import org.jboss.resteasy.annotations.providers.multipart.PartFilename;
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.lorislab.zeebe.dev.monitor.mapper.ProcessMapper;
 import org.lorislab.zeebe.dev.monitor.mapper.InstanceTableMapper;
 import org.lorislab.zeebe.dev.monitor.mapper.MessageSubscriptionMapper;
@@ -23,22 +18,12 @@ import org.lorislab.zeebe.dev.monitor.models.MessageSubscription;
 import org.lorislab.zeebe.dev.monitor.models.Timer;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.RedirectionException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.io.File;
 import java.net.URI;
-import java.nio.file.Files;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
@@ -65,9 +50,6 @@ public class ProcessViewController {
     @Inject
     MessageSubscriptionMapper messageSubscriptionMapper;
 
-    @Inject
-    ZeebeClient zeebe;
-
     @Context
     UriInfo info;
 
@@ -86,6 +68,11 @@ public class ProcessViewController {
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getDefinition(@PathParam("id") long id) {
         Definition def = Definition.findById(id);
+        System.out.println("### " + def);
+        if (def == null) {
+            throw new RedirectionException(Response.Status.TEMPORARY_REDIRECT, URI.create("/process"));
+        }
+
         BpmnXmlResource xml = BpmnXmlResource.findById(id);
 
         List<ElementInstance.ElementInstanceStatistics> elementEntered = ElementInstance.findElementInstanceByKeyAndIntentIn(def.key, ELEMENT_ENTERED, EXCLUDE_ELEMENT_TYPES);

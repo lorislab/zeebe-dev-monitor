@@ -1,8 +1,21 @@
+{@java.lang.String id=''}
+{@java.lang.Boolean page=false}
+
 <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-                <table class="w-full text-center">
+                {#if page}
+                    <span id="{id}-text">
+                    </span>
+                    <select id="{id}-selects" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </select>
+                    <div>
+                      <ul id="{id}-nav" class="inline-flex items-center -space-x-px">
+                      </ul>
+                    </div>
+                {/if}
+                <table id="{id}" class="w-full text-center">
                     <thead class="border-b bg-gray-200">
                         <tr>
                             {#insert header}{/insert}
@@ -12,6 +25,19 @@
                         {#insert body}no-header-defined{/insert}
                     </tbody>
                 </table>
+                {#if page}
+                    <script type="text/javascript">
+                        table_pagination({
+                            box_mode: "list",
+                            rows_per_page: 5,
+                            page: 1,
+                            select: document.getElementById("{id}-selects"),
+                            text: document.getElementById("{id}-text"),
+                            table: document.getElementById("{id}"),
+                            navigator: document.getElementById("{id}-nav")
+                        });
+                    </script>
+                {/if}
             </div>
         </div>
     </div>
