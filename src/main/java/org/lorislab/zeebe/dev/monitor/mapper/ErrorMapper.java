@@ -1,7 +1,7 @@
 package org.lorislab.zeebe.dev.monitor.mapper;
 
+import org.lorislab.zeebe.dev.monitor.dto.ErrorDTO;
 import org.lorislab.zeebe.dev.monitor.models.Error;
-import org.lorislab.zeebe.dev.monitor.ErrorData;
 import org.mapstruct.Mapper;
 
 
@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper(uses = OffsetDateTimeMapper.class)
 public interface ErrorMapper {
+    List<ErrorDTO> errors(List<Error> items);
 
-    List<ErrorData> items(List<Error> items);
+    ErrorDTO error(Error item);
 
-    ErrorData item(Error item);
 }

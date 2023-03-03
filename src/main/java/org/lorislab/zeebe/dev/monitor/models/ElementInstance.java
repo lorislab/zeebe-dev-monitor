@@ -56,6 +56,23 @@ public class ElementInstance extends PanacheEntityBase  {
     public LocalDateTime timestamp;
 
 
+    @Override
+    public String toString() {
+        return "ElementInstance{" +
+                "id='" + id + '\'' +
+                ", position=" + position +
+                ", partitionId=" + partitionId +
+                ", key=" + key +
+                ", intent=" + intent +
+                ", processInstanceKey=" + processInstanceKey +
+                ", elementId='" + elementId + '\'' +
+                ", bpmnElementType='" + bpmnElementType + '\'' +
+                ", flowScopeKey=" + flowScopeKey +
+                ", processDefinitionKey=" + processDefinitionKey +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+
     public static List<ElementInstanceStatistics> findElementInstanceByKeyAndIntentIn(long processDefinitionKey, List<Intent> intents, List<String> excludeElementTypes) {
         return find("""
             SELECT e.elementId AS elementId, COUNT(*) AS count FROM ElementInstance e

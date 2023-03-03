@@ -125,7 +125,7 @@ public class ImportDataService {
             entity.elementId = value.getElementId();
             entity.flowScopeKey = value.getFlowScopeKey();
             entity.processDefinitionKey = value.getProcessDefinitionKey();
-            entity.bpmnElementType = value.getBpmnElementType().getElementTypeName().get();
+            entity.bpmnElementType = value.getBpmnElementType().name();
             entity.persistAndFlush();
 
             instanceNotificationService.sendEvent(

@@ -1,6 +1,7 @@
 package org.lorislab.zeebe.dev.monitor.mapper;
 
-import org.lorislab.zeebe.dev.monitor.InstanceViewController;
+import org.lorislab.zeebe.dev.monitor.dto.CalledProcessInstanceDTO;
+import org.lorislab.zeebe.dev.monitor.dto.InstanceDetailDTO;
 import org.lorislab.zeebe.dev.monitor.models.Instance;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,19 +16,22 @@ import java.util.stream.Stream;
 public interface InstanceMapper {
 
     @Mapping(target = "isRunning", source = "instance.end", qualifiedByName = "isRunning")
-    InstanceViewController.InstanceDetailData item(Instance instance, String parentBpmnProcessId);
+    InstanceDetailDTO detail(Instance instance, String parentBpmnProcessId, long parentProcessDefinitionKey);
 
     @Named("isRunning")
     default boolean isRunning(LocalDateTime end) {
         return end == null;
     }
 
-    default List<InstanceViewController.CalledProcessInstanceData> items(Stream<Instance> items, Map<Long, String> elementIdsForKeys) {
+
+
+    default List<CalledProcessInstanceDTO> processes(Stream<Instance> items, Map<Long, String> elementIdsForKeys) {
         if (items == null) {
             return null;
         }
-        return items.map(x -> itemCallInstance(x, elementIdsForKeys.getOrDefault(x.parentElementInstanceKey, "")))
+        return items.map(x -> process(x, elementIdsForKeys.getOrDefault(x.parentElementInstanceKey, "")))
                 .toList();
     }
-    InstanceViewController.CalledProcessInstanceData itemCallInstance(Instance instance, String elementId);
+    CalledProcessInstanceDTO process(Instance instance, String elementId);
+
 }
