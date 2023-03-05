@@ -23,6 +23,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+          cache-dependency-path: ./src/main/webui/pnpm-lock.yaml
       - name: Set up java
         uses: actions/setup-java@v3
         with:
