@@ -31,7 +31,7 @@ public class IncidentController {
     IncidentTableMapper mapper;
     @GET
     public Response getAll() {
-        return Response.ok(mapper.incidents(Incident.find("resolved is null").list())).build();
+        return Response.ok(mapper.incidents(Incident.find("resolved IS NULL ORDER BY created DESC").list())).build();
     }
     @PUT
     @Path("/{key}")

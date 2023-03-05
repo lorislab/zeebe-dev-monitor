@@ -1,9 +1,19 @@
 <script lang="ts">
-    import { Table,  TableHead, TableHeadCell, TableBody, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
+    import {
+        Table,
+        TableHead,
+        TableHeadCell,
+        TableBody,
+        TableBodyCell,
+        TableBodyRow,
+        Badge,
+        Indicator
+    } from 'flowbite-svelte';
     import TablePagerBar from "../TablePagerBar.svelte";
     import TableSearchBar from "../TableSearchBar.svelte";
     import { createSearchTableStore } from "../../lib/stores/search";
     import {page} from "$app/stores";
+    import {colorTimerState} from "$lib/app.js";
 
     type Timer = {
         targetElementId: string;
@@ -24,7 +34,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Due Date</TableHeadCell>
@@ -38,7 +48,11 @@
                 <TableBodyCell>{item.targetElementId}</TableBodyCell>
                 <TableBodyCell>{item.dueDate}</TableBodyCell>
                 <TableBodyCell>{item.repetitions}</TableBodyCell>
-                <TableBodyCell>{item.state}</TableBodyCell>
+                <TableBodyCell>
+                    <Badge color="{colorTimerState[item.state]}"  rounded class="px-2.5 py-0.5">
+                        <Indicator color="{colorTimerState[item.state]}" size="xs" class="mr-1"/>{item.state}
+                    </Badge>
+                </TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
             </TableBodyRow>
         {/each}

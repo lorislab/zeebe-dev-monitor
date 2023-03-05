@@ -52,7 +52,7 @@ public class Timer extends PanacheEntityBase {
         CREATED, TRIGGER, TRIGGERED, CANCEL,  CANCELED;
     }
     public static List<Timer> findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(long processDefinitionKey) {
-        return find("processDefinitionKey = :processDefinitionKey AND processInstanceKey IS NULL",
+        return find("processDefinitionKey = :processDefinitionKey AND processInstanceKey IS NULL ORDER BY timestamp DESC",
                 Parameters.with("processDefinitionKey", processDefinitionKey).map())
                 .list();
     }

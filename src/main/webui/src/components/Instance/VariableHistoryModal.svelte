@@ -1,7 +1,9 @@
 <script lang="ts">
-    import { Modal, Table, TableBodyRow, TableBodyCell, TableBody} from "flowbite-svelte";
+    import {Modal, Table, TableBodyRow, TableBodyCell, TableBody, TableHead, TableHeadCell} from "flowbite-svelte";
     import {createSearchTableStore} from "../../lib/stores/search";
     import {page} from "$app/stores";
+    import {writable} from "svelte/store";
+    import TablePagerBar from "$components/TablePagerBar.svelte";
 
     let open = false;
 
@@ -13,6 +15,7 @@
         name = n;
         scope = s;
         data = d;
+        history.set(d);
         open = true;
     }
 
@@ -21,12 +24,25 @@
         value: string
     }
 
+    let history = writable<VariableHistory[]>([]);
+
+    const searchTableStore = createSearchTableStore<VariableHistory>(history,
+        $p => $p.map((item: VariableHistory) => ({
+                ...item,
+                searchTerms: ``
+            })
+        ), 10 );
+
  </script>
 
-<Modal title="History of '{name}' variable" bind:open={open} size="xs" class="w-full" autoclose>
-    <Table>
+<Modal title="History of '{name}' variable" bind:open={open} class="w-full" >
+    <Table divClass='relative overflow-x-auto border rounded-lg'>
+        <TableHead>
+            <TableHeadCell>Time</TableHeadCell>
+            <TableHeadCell>Value</TableHeadCell>
+        </TableHead>
         <TableBody>
-            {#each data as item}
+            {#each $searchTableStore.paged as item}
                 <TableBodyRow>
                     <TableBodyCell>{item.timestamp}</TableBodyCell>
                     <TableBodyCell>{item.value}</TableBodyCell>
@@ -34,4 +50,5 @@
             {/each}
         </TableBody>
     </Table>
+    <TablePagerBar searchStore={searchTableStore} />
 </Modal>

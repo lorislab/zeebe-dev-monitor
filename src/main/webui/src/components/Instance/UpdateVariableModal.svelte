@@ -14,7 +14,7 @@
     }
 
     async function setVariable() {
-        let tmp = {}
+        let tmp = null;
         if (value) {
             tmp = JSON.parse(value)
         }
@@ -31,7 +31,7 @@
 
 </script>
 
-<Modal title="Update process instance variable" bind:open={open} size="xs" class="w-full">
+<Modal title="Update process instance variable" bind:open={open} class="w-full">
     <form class="flex flex-col space-y-6">
         <div>
             <Label for="name" class="mb-2">Name</Label>
@@ -43,8 +43,8 @@
         </div>
         <Label class="space-y-2 mb-2">
             <span>Value</span>
-            <Textarea bind:value={value} id="value" placeholder={JSON.stringify({param1: "value", param2: 100})} rows="4" name="value"/>
+            <Textarea bind:value={value} id="value" placeholder='variable value in JSON format' rows="4" name="value"/>
         </Label>
-        <Button on:click={setVariable} disabled='{!name || !scope || !value}'>Update</Button>
+        <Button on:click={setVariable} disabled='{!name || !scope }'>Update</Button>
     </form>
 </Modal>

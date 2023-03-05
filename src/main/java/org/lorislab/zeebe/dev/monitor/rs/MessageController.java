@@ -33,7 +33,7 @@ public class MessageController {
 
     @GET
     public Response getAll() {
-        return Response.ok(mapper.messages(Message.findAll().list())).build();
+        return Response.ok(mapper.messages(Message.list("ORDER BY timestamp DESC"))).build();
     }
 
     @POST

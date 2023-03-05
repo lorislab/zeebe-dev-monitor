@@ -26,7 +26,7 @@
     }
 </script>
 
-<Modal bind:open={open} size="xs" autoclose>
+<Modal bind:open={open} autoclose class="w-full">
     <div >
         <Wrench class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" size="60"/>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Make sure you have fixed the error</h3>

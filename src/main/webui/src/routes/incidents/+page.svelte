@@ -34,7 +34,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Incident Key</TableHeadCell>
         <TableHeadCell>Instance Key</TableHeadCell>

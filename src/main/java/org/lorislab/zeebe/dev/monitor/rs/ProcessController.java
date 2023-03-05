@@ -57,7 +57,7 @@ public class ProcessController {
 
     @GET
     public Response getAll() {
-        List<ProcessTableItemDTO> tmp = mapper.processes(Definition.findAll().list(), Instance.countEndedInstances(), Instance.countActiveInstances());
+        List<ProcessTableItemDTO> tmp = mapper.processes(Definition.list("ORDER BY timestamp DESC"), Instance.countEndedInstances(), Instance.countActiveInstances());
         return Response.ok(tmp).build();
     }
 

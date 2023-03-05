@@ -27,11 +27,11 @@
     }
 </script>
 
-<Modal bind:open={open} size="xs" autoclose>
+<Modal bind:open={open} autoclose class="w-full">
     <div >
         <Play class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" size="60"/>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Complete '{job.jobType}' job</h3>
-        <Label class="space-y-2 mb-2">
+        <Label class="space-y-2 mb-4">
             <span>Parameters</span>
             <Textarea bind:value={parameters} id="parameters" placeholder={JSON.stringify({param1: "value", param2: 100})} rows="4" name="parameters"/>
         </Label>

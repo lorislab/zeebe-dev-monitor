@@ -73,48 +73,49 @@
 
 <ModifyInstanceModal bind:this={modifyModal} />
 
-<div class="w-full mb-4">
+{#if $page.data.instance.terminateActiveActivities.length > 0}
     <p class="mb-2">Select active elements to terminate</p>
     <div class="grid gap-6 md:grid-cols-4">
     {#each $page.data.instance.terminateActiveActivities as item}
         <Checkbox custom bind:group={terminateActivityIds} value={item}>
             <div on:mouseover={elementMouseOver(item.elementId)} on:mouseout={elementMouseOut(item.elementId)} on:focus on:blur
-                    class="inline-flex whitespace-nowrap bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg border peer-checked:outline peer-checked:outline-offset-0 peer-checked:outline-blue-500 border-gray-200 dark:border-gray-700 shadow-md flex max-w-sm flex-col p-2 sm:p-4 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50">
+                    class="inline-flex whitespace-nowrap bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-lg border peer-checked:outline peer-checked:outline-offset-0 peer-checked:outline-blue-500 border-gray-200 dark:border-gray-700 shadow-md flex max-w-sm flex-col p-1 sm:p-2 hover:text-gray-600 peer-checked:text-gray-600 hover:bg-gray-50">
                 <div><CursorArrowRays class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex "/>{item.elementId}</div>
             </div>
         </Checkbox>
     {/each}
     </div>
+    <div class="border-t mb-4 mt-4"></div>
+{/if}
 
-</div>
 
-<div class="w-full mb-4">
-    <p class="mb-2">Create new active elements</p>
-    <MultiSelect bind:selected options={activeItems} liSelectedClass="!bg-blue-500 !text-white" on:add={addActive} on:remove={removeActive} on:removeAll={removeAllActive} placeholder="Select elements">
-        <span slot="expand-icon"><ChevronUpDown /></span>
-        <span slot="remove-icon"><XMark class="w-4 h-4" /></span>
-    </MultiSelect>
-    <Table hoverable={true} divClass='relative mt-5'>
-        <TableHead>
-            <TableHeadCell>Element Id</TableHeadCell>
-            <TableHeadCell>Ancestor Element</TableHeadCell>
-            <TableHeadCell>Parameters</TableHeadCell>
-        </TableHead>
-        <TableBody tableBodyClass="divide-y">
-            {#each $selectedActive as item}
-                <TableBodyRow>
-                    <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.id)} on:mouseout={elementMouseOut(item.id)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.id}</TableBodyCell>
-                    <TableBodyCell>
-                        <Select bind:value={item.ancestor}>
-                            {#each $page.data.instance.ancestorActivities as {key, elementId}}
-                                <option value={key}>{elementId}</option>
-                            {/each}
-                        </Select>
-                    </TableBodyCell>
-                    <TableBodyCell><Textarea rows="2" placeholder={JSON.stringify({param1: "value", param2: 100})} bind:value={item.parameters}/></TableBodyCell>
-                </TableBodyRow>
-                {/each}
-        </TableBody>
-    </Table>
-</div>
+<MultiSelect bind:selected options={activeItems} outerDivClass="flex-auto" inputClass="!text-gray-600 !text-sm !p-2.5"
+             ulSelectedClass="!text-sm" ulOptionsClass="!text-sm"
+             liSelectedClass="!bg-blue-500 !text-white !m-1 !p-1" on:add={addActive} on:remove={removeActive} on:removeAll={removeAllActive} placeholder="Create new active elements">
+    <span slot="expand-icon"><ChevronUpDown /></span>
+    <span slot="remove-icon"><XMark class="w-4 h-4" /></span>
+</MultiSelect>
+<Table hoverable={true} divClass='relative mt-2 border rounded-lg'>
+    <TableHead>
+        <TableHeadCell>Element Id</TableHeadCell>
+        <TableHeadCell>Ancestor Element</TableHeadCell>
+        <TableHeadCell>Parameters</TableHeadCell>
+    </TableHead>
+    <TableBody tableBodyClass="divide-y">
+        {#each $selectedActive as item}
+            <TableBodyRow>
+                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.id)} on:mouseout={elementMouseOut(item.id)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.id}</TableBodyCell>
+                <TableBodyCell>
+                    <Select bind:value={item.ancestor}>
+                        {#each $page.data.instance.ancestorActivities as {key, elementId}}
+                            <option value={key}>{elementId}</option>
+                        {/each}
+                    </Select>
+                </TableBodyCell>
+                <TableBodyCell><Textarea rows="2" placeholder={JSON.stringify({param1: "value", param2: 100})} bind:value={item.parameters}/></TableBodyCell>
+            </TableBodyRow>
+            {/each}
+    </TableBody>
+</Table>
+
 

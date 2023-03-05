@@ -29,7 +29,7 @@
 
 </script>
 
-<Modal bind:open={open} autoclose>
+<Modal bind:open={open} autoclose class="w-full">
     <div >
         <NoSymbol class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" size="60"/>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Fail '{job.jobType}' job</h3>
@@ -37,7 +37,7 @@
             <span>Error message</span>
             <Input type="text" bind:value={message} id="message" placeholder="Error message ..." name="message"/>
         </Label>
-        <Label class="space-y-2 mb-2">
+        <Label class="space-y-2 mb-4">
             <span>Retries</span>
             <NumberInput bind:value={retries} id="retries" name="retries" min='0'/>
         </Label>

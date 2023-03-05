@@ -87,7 +87,7 @@ public class InstanceController {
         final Map<Long, String> elementIdsForKeys = new HashMap<>();
         elementIdsForKeys.put(item.key, item.bpmnProcessId);
 
-        List<ElementInstance> events = ElementInstance.find("processInstanceKey", item.key).list();
+        List<ElementInstance> events = ElementInstance.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list();
 
         Set<String> completedActivities = new HashSet<>();
         Set<String> completedItems = new HashSet<>();
@@ -147,7 +147,7 @@ public class InstanceController {
         List<String> incidentActivities = null;
 
         // incidents
-        List<Incident> tmp = Incident.find("processInstanceKey", item.key).list();
+        List<Incident> tmp = Incident.find("processInstanceKey = ?1 ORDER BY created DESC", item.key).list();
         List<InstanceIncidentDTO> incidents = incidentMapper.incidents(tmp, elementIdsForKeys);
 
         incidentActivities = incidents.stream()
@@ -172,19 +172,19 @@ public class InstanceController {
         BpmnXmlResource xml = BpmnXmlResource.findById(item.processDefinitionKey);
 
         // jobs
-        List<JobDTO> jobs = jobMapper.jobs(Job.find("processInstanceKey", item.key).list(), elementIdsForKeys);
+        List<JobDTO> jobs = jobMapper.jobs(Job.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list(), elementIdsForKeys);
 
         // variables
-        List<VariableDTO> variables = variableMapper.variables(Variable.find("processInstanceKey", item.key).stream(), elementIdsForKeys);
+        List<VariableDTO> variables = variableMapper.variables(Variable.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).stream(), elementIdsForKeys);
 
         // errors
-        List<ErrorDTO> errors = errorMapper.errors(Error.find("processInstanceKey", item.key).list());
+        List<ErrorDTO> errors = errorMapper.errors(Error.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
 
         // timers
-        List<TimerDTO> timers = timerMapper.timers(Timer.find("processInstanceKey", item.key).list());
+        List<TimerDTO> timers = timerMapper.timers(Timer.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
 
         // messageSubscriptions
-        List<MessageSubscriptionDTO> messageSubscriptions = messageSubscriptionMapper.messages2(MessageSubscription.find("processInstanceKey", item.key).stream(), elementIdsForKeys);
+        List<MessageSubscriptionDTO> messageSubscriptions = messageSubscriptionMapper.messages2(MessageSubscription.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).stream(), elementIdsForKeys);
 
         // audit log
         final List<ActivateElementItemDTO> activateActivities = new ArrayList<>();
@@ -200,14 +200,14 @@ public class InstanceController {
                 activateActivities.add(new ActivateElementItemDTO(e.getId(), name));
             }
         });
-        Collections.reverse(events);
+//        Collections.reverse(events);
         List<AuditLogDTO> auditLogEntries = auditLogMapper.logs(events, flowElements);
 
         // bpmnElementInfos
         List<BpmnElementInfoDTO> bpmnElementInfos = BpmnModel.loadBpmnElements(bpmn);
 
         // call process instances
-        List<CalledProcessInstanceDTO> callProcessInstances = instanceMapper.processes(Instance.find("parentProcessInstanceKey", item.key).stream(), elementIdsForKeys);
+        List<CalledProcessInstanceDTO> callProcessInstances = instanceMapper.processes(Instance.find("parentProcessInstanceKey = ?1 ORDER BY start DESC", item.key).stream(), elementIdsForKeys);
 
         InstanceDTO result = new InstanceDTO(
                 detail, new String(xml.resource), elementStates, activeScopes, activeActivities, takenSequenceFlows, auditLogEntries,

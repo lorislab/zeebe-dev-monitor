@@ -38,8 +38,8 @@
 
 </script>
 
-<TableSearchBar searchStore={searchTableStore} />pnpm
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg'>
+<TableSearchBar searchStore={searchTableStore} />
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Instance Key</TableHeadCell>

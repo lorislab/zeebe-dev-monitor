@@ -34,7 +34,7 @@ public interface VariableMapper {
 
         List<VariableDTO> result = new ArrayList<>();
         map.forEach((id, variables) -> {
-            Variable last = variables.get(variables.size() - 1);
+            Variable last = variables.get(0);
             result.add(var(id.name(), id.scopeKey(), last.value, last.timestamp, variables, elementIdsForKeys.get(id.scopeKey())));
         });
         return result;

@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<Table>
+<Table divClass='relative overflow-x-auto border rounded-lg'>
     <TableBody>
         <TableBodyRow>
             <TableBodyCell>Key</TableBodyCell>

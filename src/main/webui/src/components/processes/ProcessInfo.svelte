@@ -1,10 +1,10 @@
 <script lang="ts">
-    import {Table, TableBody, TableBodyCell, TableBodyRow} from 'flowbite-svelte';
+    import {Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell} from 'flowbite-svelte';
     export let info;
 
 </script>
 
-<Table>
+<Table divClass="relative overflow-x-auto border rounded-lg">
     <TableBody>
         <TableBodyRow>
             <TableBodyCell>Key</TableBodyCell>

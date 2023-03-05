@@ -49,7 +49,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative'>
+<Table hoverable={true} divClass='relative border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Job Key</TableHeadCell>
@@ -76,12 +76,11 @@
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
                     {#if item.isActivatable && $page.data.instance.detail.isRunning}
-                        <MenuButton class="dots-menu-{item.key}" vertical />
-                        <Dropdown triggeredBy=".dots-menu-{item.key}">
-                            <DropdownItem on:click={completeModal.init(item)}><Play class="w-4 h-4 mr-2 focus:outline-none inline-flex"/>Complete job</DropdownItem>
-                            <DropdownItem on:click={failModal.init(item)}><NoSymbol class="w-4 h-4 mr-2 focus:outline-none inline-flex"/>Fail job</DropdownItem>
-                            <DropdownItem on:click={throwErrorModal.init(item)}><Bolt class="w-4 h-4 mr-2 focus:outline-none inline-flex"/>Throw error</DropdownItem>
-                        </Dropdown>
+                        <ButtonGroup>
+                            <Button on:click={completeModal.init(item)} title="Complete job"><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                            <Button on:click={failModal.init(item)} title="Fail job"><NoSymbol class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                            <Button on:click={throwErrorModal.init(item)} title="Throw error"><Bolt class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        </ButtonGroup>
                     {/if}
                 </TableBodyCell>
             </TableBodyRow>

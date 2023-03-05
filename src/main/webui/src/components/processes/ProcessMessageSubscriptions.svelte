@@ -37,7 +37,7 @@
 
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Message Name</TableHeadCell>

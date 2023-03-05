@@ -5,9 +5,9 @@
         TableBody,
         TableBodyCell,
         TableBodyRow,
-        Button, ButtonGroup, Table, MenuButton, Dropdown, DropdownItem
+        Button, ButtonGroup, Table, MenuButton, Dropdown, DropdownItem, Popover
     } from 'flowbite-svelte';
-    import {Cog8Tooth, CursorArrowRays, DocumentPlus, Signal} from "svelte-heros-v2";
+    import {Cog8Tooth, CursorArrowRays, DocumentPlus, Pencil, Signal} from "svelte-heros-v2";
     import UpdateVariableModal from "./UpdateVariableModal.svelte";
     import VariableHistoryModal from "./VariableHistoryModal.svelte";
     import TableSearchBar from "../TableSearchBar.svelte";
@@ -15,6 +15,7 @@
     import { createSearchTableStore } from "../../lib/stores/search";
     import { page } from '$app/stores'
     import CreateVariableModal from "$components/Instance/CreateVariableModal.svelte";
+    import {Tooltip} from "flowbite";
 
     let updateVariableModel;
     let historyVariableModal;
@@ -52,7 +53,7 @@
         <DocumentPlus class="mr-2 -ml-1 w-5 h-5 focus:outline-none" variation="solid" />Create variable
     </Button>
 </TableSearchBar>
-<Table hoverable={true} divClass='relative'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Scope Key</TableHeadCell>
         <TableHeadCell>Element Id</TableHeadCell>
@@ -70,13 +71,10 @@
                 <TableBodyCell>{item.value}</TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell >
-                    <MenuButton class="dots-menu-{item.name}" vertical />
-                    <Dropdown triggeredBy=".dots-menu-{item.name}">
-                        <DropdownItem on:click={historyVariableModal.init(item.scopeKey, item.name, item.values)} ><Signal class="w-4 h-4 mr-2 focus:outline-none inline-flex"/>History</DropdownItem>
-                        {#if $page.data.instance.detail.isRunning}
-                        <DropdownItem on:click={updateVariableModel.init(item.scopeKey, item.name, item.value)} ><Cog8Tooth class="w-4 h-4 mr-2 focus:outline-none inline-flex" />Update</DropdownItem>
-                        {/if}
-                    </Dropdown>
+                    <ButtonGroup>
+                        <Button title="Show variable history" on:click={historyVariableModal.init(item.scopeKey, item.name, item.values)}><Signal class="w-4 h-4 focus:outline-none inline-flex" /></Button>
+                        <Button title="Edit variable" on:click={updateVariableModel.init(item.scopeKey, item.name, item.value)} disabled='{!$page.data.instance.detail.isRunning}'><Pencil class="w-4 h-4 focus:outline-none inline-flex" /></Button>
+                    </ButtonGroup>
                 </TableBodyCell>
             </TableBodyRow>
         {/each}

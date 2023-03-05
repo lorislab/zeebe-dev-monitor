@@ -66,7 +66,7 @@
     }
 </script>
 
-<Modal bind:open={open}  autoclose>
+<Modal bind:open={open}  autoclose class="w-full">
     <div class="text-center">
         <Pencil class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" size="60"/>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to modify this process instance?</h3>
@@ -81,7 +81,7 @@
         {#if ae.length > 0}
         <div class="mb-4">
             <div class="mb-2 ">New active elements</div>
-            <Table>
+            <Table divClass='relative overflow-x-auto border rounded-lg'>
                 <TableHead>
                     <TableHeadCell>Element Id</TableHeadCell>
                     <TableHeadCell>Ancestor Element</TableHeadCell>

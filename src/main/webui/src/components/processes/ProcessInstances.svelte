@@ -41,7 +41,7 @@
         <Play class="mr-2 -ml-1 w-5 h-5 focus:outline-none" variation="solid" />Create instance</Button>
     <CreateNewInstanceModal  bind:open={createInstanceModal} />
 </TableSearchBar>
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Process Instance Key</TableHeadCell>
         <TableHeadCell>State</TableHeadCell>

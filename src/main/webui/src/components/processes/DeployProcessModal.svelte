@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Label, Modal, Fileupload, Button } from "flowbite-svelte";
-    import {invalidate} from "$app/navigation";
 
     export let open = false;
 
@@ -15,6 +14,11 @@
             .then((res) => {
                 open = false;
             });
+    }
+
+    export function init() {
+        files = null;
+        open = true;
     }
 
 </script>

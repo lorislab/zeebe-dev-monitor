@@ -35,17 +35,18 @@
         })
     ), 10);
 
-    let deploymentModal = false;
+    let deploymentModal;
 
 </script>
 
 <TableSearchBar searchStore={searchTableStore} >
-    <Button size="sm" on:click={() => deploymentModal = true} class="shadow-md">
+    <Button size="sm" on:click={deploymentModal.init()} class="shadow-md">
         <CloudArrowUp class="mr-2 -ml-1 w-5 h-5 focus:outline-none" variation="solid" />Deploy process</Button>
-    <DeployProcessModal bind:open={deploymentModal} />
 </TableSearchBar>
 
-<Table hoverable={true} divClass='relative overflow-x-auto sm:rounded-lg' >
+<DeployProcessModal bind:this={deploymentModal} />
+
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg' >
     <TableHead>
         <TableHeadCell>Process Definition Key</TableHeadCell>
         <TableHeadCell>BPMN process id</TableHeadCell>

@@ -42,7 +42,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Message Name</TableHeadCell>
@@ -65,10 +65,9 @@
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
                     {#if $page.data.instance.detail.isRunning}
-                    <MenuButton class="dots-menu-{item.messageName}" vertical />
-                    <Dropdown triggeredBy=".dots-menu-{item.messageName}">
-                        <DropdownItem on:click={sendMessageModel.init(item.messageName, item.correlationKey)} ><Envelope class="w-4 h-4 mr-2 focus:outline-none inline-flex"/>Send message</DropdownItem>
-                    </Dropdown>
+                        <ButtonGroup>
+                            <Button on:click={sendMessageModel.init(item.messageName, item.correlationKey)} title="Send message" ><Envelope class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        </ButtonGroup>
                     {/if}
                 </TableBodyCell>
             </TableBodyRow>

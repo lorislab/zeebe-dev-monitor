@@ -306,8 +306,9 @@ public class ImportDataService {
 
     public void importVariable(final Record<VariableRecordValue> record) {
         String id = generateId(record);
-        if (Variable.count("id", id) == 0) {
-            Variable variable = new Variable();
+        Variable variable = Variable.findById(id);
+        if (variable == null) {
+            variable = new Variable();
             variable.id = id;
             variable.position = record.getPosition();
             variable.partitionId = record.getPartitionId();
@@ -320,6 +321,10 @@ public class ImportDataService {
             VariableIntent intent = (VariableIntent) record.getIntent();
             variable.state = Variable.State.valueOf(intent.name());
             variable.persistAndFlush();
+
+            instanceNotificationService.sendEvent(
+                    new NotificationService.InstanceEvent(value.getProcessInstanceKey(), value.getProcessDefinitionKey(), NotificationService.ProcessInstanceEventType.UPDATED)
+            );
         }
     }
 

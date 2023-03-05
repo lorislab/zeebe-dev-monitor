@@ -36,7 +36,7 @@
                 {/each}
                 {/if}
                 <Button on:click={searchStore.nextPage}
-                        btnClass="px-3 py-2.5 text-sm font-medium text-gray-900 bg-white border-t border-b rounded-r-lg border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 ">
+                        btnClass="px-3 py-2.5 text-sm font-medium text-gray-900 bg-white border-t border-b border-r rounded-r-lg border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 ">
                     <ChevronRight class="w-5 h-5 focus:outline-none"/>
                 </Button>
             </div>

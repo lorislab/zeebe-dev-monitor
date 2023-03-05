@@ -31,7 +31,7 @@ public class JobController {
 
     @GET
     public Response getAll() {
-        List<Job> jobs = Job.find("state not in :state", Parameters.with("state", List.of(Job.State.COMPLETED, Job.State.CANCELED)).map()).list();
+        List<Job> jobs = Job.find("state not in :state ORDER BY timestamp DESC", Parameters.with("state", List.of(Job.State.COMPLETED, Job.State.CANCELED)).map()).list();
         return Response.ok(jobMapper.jobs(jobs)).build();
     }
 

@@ -23,6 +23,6 @@ public class ErrorController {
 
     @GET
     public Response getAll() {
-        return Response.ok(errorMapper.errors(Error.findAll().list())).build();
+        return Response.ok(errorMapper.errors(Error.list("ORDER BY timestamp DESC"))).build();
     }
 }
