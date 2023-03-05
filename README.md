@@ -13,9 +13,10 @@ env:
 ```
 ## Screenshots
 
-![Screenshot](./docs/zeebe-dev-monitor1_800.png)
-![Screenshot](./docs/zeebe-dev-monitor2_800.png)
-![Screenshot](./docs/zeebe-dev-monitor3_800.png)
+![Screenshot](./docs/zeebe-dev-monitor-processes-800.png)
+![Screenshot](./docs/zeebe-dev-monitor-instance-800.png)
+![Screenshot](./docs/zeebe-dev-monitor-incident-800.png)
+![Screenshot](./docs/zeebe-dev-monitor-complete-job-800.png)
 
 ## Containers
 
