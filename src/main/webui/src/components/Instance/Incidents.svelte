@@ -8,7 +8,7 @@
         TableBodyCell,
         TableBodyRow,
         TableHead,
-        TableHeadCell
+        TableHeadCell, Textarea
     } from "flowbite-svelte";
     import {CursorArrowRays, Envelope, Wrench} from "svelte-heros-v2";
     import TablePagerBar from "$components/TablePagerBar.svelte";
