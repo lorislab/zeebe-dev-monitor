@@ -49,7 +49,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative border rounded-lg'>
+<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Element Id</TableHeadCell>
         <TableHeadCell>Job Key</TableHeadCell>

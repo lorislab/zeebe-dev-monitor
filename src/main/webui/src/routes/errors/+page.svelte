@@ -47,8 +47,8 @@
                 <TableBodyCell>{item.position}</TableBodyCell>
                 <TableBodyCell>{item.errorEventPosition}</TableBodyCell>
                 <TableBodyCell><A href="/instances/{item.processInstanceKey}" class="font-medium hover:underline">{item.processInstanceKey}</A></TableBodyCell>
-                <TableBodyCell>{item.exceptionMessage}</TableBodyCell>
-                <TableBodyCell>{item.stacktrace}</TableBodyCell>
+                <TableBodyCell class="max-w-[150px] text-ellipsis overflow-hidden" title={item.exceptionMessage}>{item.exceptionMessage}</TableBodyCell>
+                <TableBodyCell class="max-w-[150px] text-ellipsis overflow-hidden" title={item.stacktrace}>{item.stacktrace}</TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
             </TableBodyRow>
         {/each}

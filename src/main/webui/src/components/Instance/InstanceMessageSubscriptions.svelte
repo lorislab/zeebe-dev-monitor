@@ -64,11 +64,9 @@
                 </TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
-                    {#if $page.data.instance.detail.isRunning}
-                        <ButtonGroup>
-                            <Button on:click={sendMessageModel.init(item.messageName, item.correlationKey)} title="Send message" ><Envelope class="w-4 h-4 focus:outline-none inline-flex"/></Button>
-                        </ButtonGroup>
-                    {/if}
+                    <ButtonGroup>
+                        <Button on:click={sendMessageModel.init(item.messageName, item.correlationKey)} title="Send message" disabled='{!$page.data.instance.detail.isRunning}' ><Envelope class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                    </ButtonGroup>
                 </TableBodyCell>
             </TableBodyRow>
         {/each}
