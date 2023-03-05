@@ -46,7 +46,7 @@
 
 <DeployProcessModal bind:this={deploymentModal} />
 
-<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg' >
+<Table data-testid="processesTable" hoverable={true} divClass='relative overflow-x-auto border rounded-lg' >
     <TableHead>
         <TableHeadCell>Process Definition Key</TableHeadCell>
         <TableHeadCell>BPMN process id</TableHeadCell>

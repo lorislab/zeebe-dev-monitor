@@ -5,9 +5,9 @@
         TableBody,
         TableBodyCell,
         TableBodyRow,
-        Button, ButtonGroup, Table, MenuButton, Dropdown, DropdownItem, Popover
+        Button, ButtonGroup, Table
     } from 'flowbite-svelte';
-    import {Cog8Tooth, CursorArrowRays, DocumentPlus, Pencil, Signal} from "svelte-heros-v2";
+    import { CursorArrowRays, DocumentPlus, Pencil, Signal} from "svelte-heros-v2";
     import UpdateVariableModal from "./UpdateVariableModal.svelte";
     import VariableHistoryModal from "./VariableHistoryModal.svelte";
     import TableSearchBar from "../TableSearchBar.svelte";
@@ -15,7 +15,7 @@
     import { createSearchTableStore } from "../../lib/stores/search";
     import { page } from '$app/stores'
     import CreateVariableModal from "$components/Instance/CreateVariableModal.svelte";
-    import {Tooltip} from "flowbite";
+
 
     let updateVariableModel;
     let historyVariableModal;

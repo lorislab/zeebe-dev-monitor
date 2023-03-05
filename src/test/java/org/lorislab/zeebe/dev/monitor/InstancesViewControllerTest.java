@@ -11,12 +11,12 @@ import static com.codeborne.selenide.Selenide.open;
 
 @QuarkusTest
 @TestProfile(QuinoaTestProfiles.Enable.class)
-public class IncidentViewControllerTest {
+public class InstancesViewControllerTest {
 
     @Test
-    public void indexPageTest() {
+    public void definitionsTest() {
         open("/");
-        $("[data-testid=menuIncidents]").click();
-        $("[data-testid=incidentsTable]").should(exist);
+        $("[data-testid=menuInstances]").click();
+        $("[data-testid=instancesTable]").should(exist);
     }
 }

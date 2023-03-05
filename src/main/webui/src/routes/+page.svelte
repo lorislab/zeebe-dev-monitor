@@ -5,7 +5,7 @@
 </script>
 
 <div class="text-center text-gray-800 py-20 px-6">
-	<Heading tag="h1" class="mb-4">Zeebe developer monitor</Heading>
+	<Heading tag="h1" class="mb-4" data-testid="index-title">Zeebe developer monitor</Heading>
 	<P align="center" weight="light">
 		It is designed for developers to get in touch with Zeebe and workflow execution (BPMN), test workflows manually, provide insides on how workflows are executed.
 	</P>

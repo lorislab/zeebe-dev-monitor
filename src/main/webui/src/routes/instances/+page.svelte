@@ -35,7 +35,7 @@
 
 <TableSearchBar searchStore={searchTableStore} />
 
-<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
+<Table data-testid="instancesTable" hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Process Instance Key</TableHeadCell>
         <TableHeadCell>Process Id</TableHeadCell>

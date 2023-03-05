@@ -75,13 +75,11 @@
                 </TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
-                    {#if item.isActivatable && $page.data.instance.detail.isRunning}
-                        <ButtonGroup>
-                            <Button on:click={completeModal.init(item)} title="Complete job"><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
-                            <Button on:click={failModal.init(item)} title="Fail job"><NoSymbol class="w-4 h-4 focus:outline-none inline-flex"/></Button>
-                            <Button on:click={throwErrorModal.init(item)} title="Throw error"><Bolt class="w-4 h-4 focus:outline-none inline-flex"/></Button>
-                        </ButtonGroup>
-                    {/if}
+                    <ButtonGroup>
+                        <Button on:click={completeModal.init(item)} title="Complete job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        <Button on:click={failModal.init(item)} title="Fail job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><NoSymbol class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        <Button on:click={throwErrorModal.init(item)} title="Throw error" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Bolt class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                    </ButtonGroup>
                 </TableBodyCell>
             </TableBodyRow>
         {/each}

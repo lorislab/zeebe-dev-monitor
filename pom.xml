@@ -118,10 +118,36 @@
             <version>${zeebe.testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.quinoa</groupId>
+            <artifactId>quarkus-quinoa-testing</artifactId>
+            <version>1.2.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>regex-property</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>zeebe.major.version</name>
+                            <value>${camunda.version}</value>
+                            <regex>\.[\d]+$</regex>
+                            <replacement></replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
@@ -131,6 +157,12 @@
                         <goals>
                             <goal>build</goal>
                         </goals>
+                        <configuration>
+                            <properties>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <zeebe.major.version>${zeebe.major.version}</zeebe.major.version>
+                            </properties>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

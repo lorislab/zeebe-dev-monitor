@@ -32,7 +32,7 @@
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
-<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
+<Table  data-testid="errorsTable"  hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Position</TableHeadCell>
         <TableHeadCell>Error Event Position</TableHeadCell>

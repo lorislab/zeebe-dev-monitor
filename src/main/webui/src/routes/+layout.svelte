@@ -114,12 +114,12 @@
         <NavHamburger on:click={toggle} />
     </div>
   <NavUl {hidden}>
-    <NavLi href="/processes" active={route.id.startsWith('/processes')}>Processes</NavLi>
-    <NavLi href="/instances" active={route.id.startsWith('/instances')}>Instances</NavLi>
-    <NavLi href="/incidents" active={route.id === '/incidents'}>Incidents</NavLi>
-    <NavLi href="/jobs" active={route.id === '/jobs'}>Jobs</NavLi>
-    <NavLi href="/messages" active={route.id === '/messages'}>Messages</NavLi>
-    <NavLi href="/errors" active={route.id === '/errors'}>Errors</NavLi>
+    <NavLi data-testid="menuProcesses" href="/processes" active={route.id.startsWith('/processes')}>Processes</NavLi>
+    <NavLi data-testid="menuInstances" href="/instances" active={route.id.startsWith('/instances')}>Instances</NavLi>
+    <NavLi data-testid="menuIncidents" href="/incidents" active={route.id === '/incidents'}>Incidents</NavLi>
+    <NavLi data-testid="menuJobs" href="/jobs" active={route.id === '/jobs'}>Jobs</NavLi>
+    <NavLi data-testid="menuMessages" href="/messages" active={route.id === '/messages'}>Messages</NavLi>
+    <NavLi data-testid="menuErrors" href="/errors" active={route.id === '/errors'}>Errors</NavLi>
   </NavUl>
 </Navbar>
 

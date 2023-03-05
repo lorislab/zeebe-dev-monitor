@@ -40,7 +40,7 @@
     <Button size="sm" class="shadow-md" on:click={sendMessageModel.init(null, null, true)}><Envelope class="w-4 h-4 mr-2 focus:outline-none" />Send message</Button>
 </TableSearchBar>
 
-<Table hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
+<Table data-testid="messagesTable" hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell>Correlation Key</TableHeadCell>
