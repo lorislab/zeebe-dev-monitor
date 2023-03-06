@@ -55,7 +55,7 @@ public class MessageSubscription extends PanacheEntityBase  {
     }
 
     public static List<MessageSubscription> findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(long processDefinitionKey) {
-        return find("processDefinitionKey = :processDefinitionKey AND processInstanceKey IS NULL",
+        return find("processDefinitionKey = :processDefinitionKey AND processInstanceKey IS NULL ORDER BY timestamp DESC",
                 Parameters.with("processDefinitionKey", processDefinitionKey).map())
                 .list();
     }

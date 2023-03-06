@@ -88,7 +88,7 @@ public class Instance extends PanacheEntityBase {
     }
 
     public static List<Instance> findByProcessDefinitionKey(long processDefinitionKey) {
-        return find("processDefinitionKey",  processDefinitionKey).list();
+        return find("processDefinitionKey = ?1 ORDER BY start DESC",  processDefinitionKey).list();
     }
 
     @RegisterForReflection

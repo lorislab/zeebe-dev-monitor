@@ -43,6 +43,7 @@ public class NotificationService {
         sendEvent(new NotificationEvent(NotificationEventType.PROCESS_INSTANCE, data));
     }
 
+
     public void sendEvent(ClusterEvent data) {
         sendEvent(new NotificationEvent(NotificationEventType.CLUSTER, data));
     }

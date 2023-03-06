@@ -1,6 +1,6 @@
 package org.lorislab.zeebe.dev.monitor.mapper;
 
-import org.lorislab.zeebe.dev.monitor.IncidentState;
+import org.lorislab.zeebe.dev.monitor.dto.IncidentState;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
