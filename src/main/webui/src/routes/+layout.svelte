@@ -49,7 +49,7 @@
                 if (pi.type === 'CREATED') {
                     if ((route.id.startsWith('/processes/') && pi.processDefinitionKey == params.id) ||
                         (route.id === '/instances')) {
-                        invalidateAll();
+                        refresh = true;
                     }
                 } else {
                     if ((route.id.startsWith('/processes/') && pi.processDefinitionKey == params.id)) {
