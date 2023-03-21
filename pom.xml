@@ -18,7 +18,7 @@
         <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <camunda.version>8.1.9</camunda.version>
         <quarkus.zeebe.version>0.8.0</quarkus.zeebe.version>
-        <quarkus.sqlite.version>1.0.3</quarkus.sqlite.version>
+        <quarkus.sqlite.version>3.0.1</quarkus.sqlite.version>
         <selenide.version>6.12.3</selenide.version>
         <zeebe.testcontainers.version>3.5.2</zeebe.testcontainers.version>
         <quarkus.quinoa.version>1.2.6</quarkus.quinoa.version>
