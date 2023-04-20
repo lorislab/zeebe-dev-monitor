@@ -171,7 +171,7 @@
                     <encoding>UTF-8</encoding>
                     <parameters>true</parameters>
                     <compilerArgs>
-                        <arg>-Amapstruct.defaultComponentModel=cdi</arg>
+                        <arg>-Amapstruct.defaultComponentModel=jakarta</arg>
                         <arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
                     </compilerArgs>
                     <annotationProcessorPaths>

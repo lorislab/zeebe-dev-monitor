@@ -298,6 +298,10 @@ public class ImportDataService {
             m.messageId = value.getMessageId();
             m.payload = toJsonString(value.getVariables());
         }
+        // check if message already published
+        if (Message.State.PUBLISHED == m.state) {
+            return;
+        }
         MessageIntent intent = (MessageIntent) record.getIntent();
         m.state = Message.State.valueOf(intent.name());
         m.timestamp = localDateTime(record.getTimestamp());
