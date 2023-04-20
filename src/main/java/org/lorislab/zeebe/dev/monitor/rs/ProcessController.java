@@ -17,11 +17,11 @@ import org.lorislab.zeebe.dev.monitor.mapper.ProcessMapper;
 import org.lorislab.zeebe.dev.monitor.mapper.TimerMapper;
 import org.lorislab.zeebe.dev.monitor.models.*;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

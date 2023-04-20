@@ -36,9 +36,9 @@ import org.lorislab.zeebe.dev.monitor.models.Timer;
 import org.lorislab.zeebe.dev.monitor.models.Variable;
 import org.lorislab.zeebe.dev.monitor.ws.NotificationService;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -1,19 +1,16 @@
 package org.lorislab.zeebe.dev.monitor.rs;
 
 import io.camunda.zeebe.client.ZeebeClient;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.panache.common.Parameters;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.lorislab.zeebe.dev.monitor.dto.InstanceTableItemDTO;
 import org.lorislab.zeebe.dev.monitor.mapper.JobMapper;
-import org.lorislab.zeebe.dev.monitor.models.Instance;
 import org.lorislab.zeebe.dev.monitor.models.Job;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 

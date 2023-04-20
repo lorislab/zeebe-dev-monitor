@@ -12,16 +12,16 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <quarkus.version>2.16.6.Final</quarkus.version>
-        <mapstruct.version>1.5.3.Final</mapstruct.version>
+        <quarkus.version>3.0.0.Final</quarkus.version>
+        <mapstruct.version>1.5.4.Final</mapstruct.version>
 
         <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <camunda.version>8.2.0</camunda.version>
-        <quarkus.zeebe.version>0.8.0</quarkus.zeebe.version>
-        <quarkus.sqlite.version>1.0.3</quarkus.sqlite.version>
+        <quarkus.zeebe.version>1.0.0</quarkus.zeebe.version>
+        <quarkus.sqlite.version>3.0.4</quarkus.sqlite.version>
         <selenide.version>6.13.0</selenide.version>
         <zeebe.testcontainers.version>3.5.2</zeebe.testcontainers.version>
-        <quarkus.quinoa.version>2.0.2</quarkus.quinoa.version>
+        <quarkus.quinoa.version>2.0.3</quarkus.quinoa.version>
     </properties>
 
     <dependencyManagement>
@@ -164,6 +164,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
@@ -188,6 +189,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <configuration>
@@ -203,6 +205,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <executions>

@@ -2,21 +2,16 @@ package org.lorislab.zeebe.dev.monitor.rs;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.PublishMessageResponse;
-import io.quarkus.panache.common.Parameters;
-import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.lorislab.zeebe.dev.monitor.dto.PublishMessageDTO;
 import org.lorislab.zeebe.dev.monitor.mapper.MessageMapper;
-import org.lorislab.zeebe.dev.monitor.models.Job;
 import org.lorislab.zeebe.dev.monitor.models.Message;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.time.Duration;
-import java.util.List;
-import java.util.Map;
 
 
 @Path("/api/message")

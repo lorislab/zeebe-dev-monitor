@@ -13,11 +13,11 @@ import org.lorislab.zeebe.dev.monitor.models.*;
 import org.lorislab.zeebe.dev.monitor.models.Error;
 import org.lorislab.zeebe.dev.monitor.models.Timer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.*;
 
 @Path("/api/instance")
