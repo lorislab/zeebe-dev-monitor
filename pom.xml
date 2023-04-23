@@ -16,7 +16,7 @@
         <mapstruct.version>1.5.4.Final</mapstruct.version>
 
         <surefire-plugin.version>3.0.0</surefire-plugin.version>
-        <camunda.version>8.2.2</camunda.version>
+        <camunda.version>8.2.3</camunda.version>
         <quarkus.zeebe.version>1.0.0</quarkus.zeebe.version>
         <quarkus.sqlite.version>3.0.4</quarkus.sqlite.version>
         <selenide.version>6.13.0</selenide.version>
