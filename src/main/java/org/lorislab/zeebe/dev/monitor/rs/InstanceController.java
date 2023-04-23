@@ -74,8 +74,11 @@ public class InstanceController {
     @Path("{key}")
     public Response loadByKey(@PathParam("key") long key) {
         Instance item = Instance.findById(key);
+        if (item == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         String parentBpmnProcessId = null;
-        Long parentProcessDefinitionKey = -1L;
+        long parentProcessDefinitionKey = -1L;
         if (item.parentProcessInstanceKey  != null && item.parentProcessInstanceKey > 0) {
             Instance parent = Instance.findById(item.parentProcessInstanceKey);
             if (parent != null) {

@@ -64,6 +64,9 @@ public class ProcessController {
     @Path("{processDefinitionKey}")
     public Response processDefinition(@PathParam("processDefinitionKey") Long processDefinitionKey) {
         Definition def = Definition.findById(processDefinitionKey);
+        if (def == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         BpmnXmlResource xml = BpmnXmlResource.findById(processDefinitionKey);
 
         long active = Instance.countActiveInstanceOfProcessDefinitionKey(def.key);
