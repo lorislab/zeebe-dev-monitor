@@ -11,10 +11,7 @@ import org.lorislab.zeebe.dev.monitor.dto.ElementInstanceStateDTO;
 import org.lorislab.zeebe.dev.monitor.dto.ProcessDTO;
 import org.lorislab.zeebe.dev.monitor.dto.ProcessInstanceDTO;
 import org.lorislab.zeebe.dev.monitor.dto.ProcessTableItemDTO;
-import org.lorislab.zeebe.dev.monitor.mapper.InstanceTableMapper;
-import org.lorislab.zeebe.dev.monitor.mapper.MessageSubscriptionMapper;
-import org.lorislab.zeebe.dev.monitor.mapper.ProcessMapper;
-import org.lorislab.zeebe.dev.monitor.mapper.TimerMapper;
+import org.lorislab.zeebe.dev.monitor.mapper.*;
 import org.lorislab.zeebe.dev.monitor.models.*;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -55,6 +52,8 @@ public class ProcessController {
     @Inject
     MessageSubscriptionMapper messageSubscriptionMapper;
 
+    @Inject
+    SignalSubscriptionMapper signalSubscriptionMapper;
     @GET
     public Response getAll() {
         List<ProcessTableItemDTO> tmp = mapper.processes(Definition.list("ORDER BY timestamp DESC"), Instance.countEndedInstances(), Instance.countActiveInstances());
@@ -86,6 +85,7 @@ public class ProcessController {
                 instanceMapper.tableItems(Instance.findByProcessDefinitionKey(def.key)),
                 timerMapper.timers(Timer.findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(def.key)),
                 messageSubscriptionMapper.messages(MessageSubscription.findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(def.key)),
+                signalSubscriptionMapper.signals(SignalSubscription.findByProcessDefinitionKeyAndProcessInstanceKeyIsNull(def.key)),
                 new ProcessInstanceDTO(BpmnModel.loadBpmnElements(xml), elementsInstances)
         )).build();
     }

@@ -3,37 +3,12 @@ package org.lorislab.zeebe.dev.monitor.data;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.camunda.zeebe.protocol.Protocol;
 import io.camunda.zeebe.protocol.record.Record;
-import io.camunda.zeebe.protocol.record.intent.IncidentIntent;
-import io.camunda.zeebe.protocol.record.intent.JobIntent;
-import io.camunda.zeebe.protocol.record.intent.MessageIntent;
-import io.camunda.zeebe.protocol.record.intent.MessageStartEventSubscriptionIntent;
-import io.camunda.zeebe.protocol.record.intent.ProcessInstanceIntent;
-import io.camunda.zeebe.protocol.record.intent.ProcessMessageSubscriptionIntent;
-import io.camunda.zeebe.protocol.record.intent.TimerIntent;
-import io.camunda.zeebe.protocol.record.intent.VariableIntent;
-import io.camunda.zeebe.protocol.record.value.DeploymentRecordValue;
-import io.camunda.zeebe.protocol.record.value.ErrorRecordValue;
-import io.camunda.zeebe.protocol.record.value.IncidentRecordValue;
-import io.camunda.zeebe.protocol.record.value.JobRecordValue;
-import io.camunda.zeebe.protocol.record.value.MessageRecordValue;
-import io.camunda.zeebe.protocol.record.value.MessageStartEventSubscriptionRecordValue;
-import io.camunda.zeebe.protocol.record.value.ProcessInstanceRecordValue;
-import io.camunda.zeebe.protocol.record.value.ProcessMessageSubscriptionRecordValue;
-import io.camunda.zeebe.protocol.record.value.TimerRecordValue;
-import io.camunda.zeebe.protocol.record.value.VariableRecordValue;
+import io.camunda.zeebe.protocol.record.intent.*;
+import io.camunda.zeebe.protocol.record.value.*;
 import io.camunda.zeebe.protocol.record.value.deployment.DeploymentResource;
 import io.camunda.zeebe.protocol.record.value.deployment.ProcessMetadataValue;
-import org.lorislab.zeebe.dev.monitor.models.BpmnXmlResource;
-import org.lorislab.zeebe.dev.monitor.models.ElementInstance;
+import org.lorislab.zeebe.dev.monitor.models.*;
 import org.lorislab.zeebe.dev.monitor.models.Error;
-import org.lorislab.zeebe.dev.monitor.models.Incident;
-import org.lorislab.zeebe.dev.monitor.models.Instance;
-import org.lorislab.zeebe.dev.monitor.models.Definition;
-import org.lorislab.zeebe.dev.monitor.models.Job;
-import org.lorislab.zeebe.dev.monitor.models.Message;
-import org.lorislab.zeebe.dev.monitor.models.MessageSubscription;
-import org.lorislab.zeebe.dev.monitor.models.Timer;
-import org.lorislab.zeebe.dev.monitor.models.Variable;
 import org.lorislab.zeebe.dev.monitor.ws.NotificationService;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -41,6 +16,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -201,6 +179,7 @@ public class ImportDataService {
                     tmp.correlationKey = value.getCorrelationKey();
                     tmp.processInstanceKey = value.getProcessInstanceKey();
                     tmp.targetFlowNodeId = value.getElementId();
+                    tmp.variables = toJsonString(value.getVariables());
                     return tmp;
                 });
 
@@ -219,6 +198,7 @@ public class ImportDataService {
                     tmp.messageName = value.getMessageName();
                     tmp.processDefinitionKey = value.getProcessDefinitionKey();
                     tmp.targetFlowNodeId = value.getStartEventId();
+                    tmp.variables = toJsonString(value.getVariables());
                     return tmp;
                 });
 
@@ -270,22 +250,58 @@ public class ImportDataService {
     }
 
     public void importJob(final Record<JobRecordValue> record) {
-        Job job = Job.findById(record.getKey());
         JobRecordValue value = record.getValue();
+        if (UserTaskHeaders.JOB_TYPE.equals(value.getType())) {
+            importUserTask(record);
+            return;
+        }
+        Job job = Job.findById(record.getKey());
         if (job == null) {
             job = new Job();
             job.key = record.getKey();
             job.processInstanceKey = value.getProcessInstanceKey();
             job.elementInstanceKey = value.getElementInstanceKey();
             job.jobType = value.getType();
+            job.elementId = value.getElementId();
         }
         JobIntent intent = (JobIntent) record.getIntent();
         job.state = Job.State.valueOf(intent.name());
         job.timestamp = localDateTime(record.getTimestamp());
         job.worker = value.getWorker();
         job.retries = value.getRetries();
+        job.errorCode = value.getErrorCode();
+        job.errorMessage = value.getErrorMessage();
         job.persistAndFlush();
     }
+
+    public void importUserTask(final Record<JobRecordValue> record) {
+        UserTask task = UserTask.findById(record.getKey());
+        JobRecordValue value = record.getValue();
+        if (task == null) {
+            task = new UserTask();
+            task.key = record.getKey();
+            task.processInstanceKey = value.getProcessInstanceKey();
+            task.elementInstanceKey = value.getElementInstanceKey();
+            task.jobType = value.getType();
+            task.elementId = value.getElementId();
+        }
+        JobIntent intent = (JobIntent) record.getIntent();
+        task.status = UserTask.Status.valueOf(intent.name());
+        task.timestamp = localDateTime(record.getTimestamp());
+        task.worker = value.getWorker();
+        task.retries = value.getRetries();
+        task.errorCode = value.getErrorCode();
+        task.errorMessage = value.getErrorMessage();
+        Map<String, String> headers = value.getCustomHeaders();
+        task.users =  headers.get(UserTaskHeaders.CANDIDATE_USERS);
+        task.groups =  headers.get(UserTaskHeaders.CANDIDATE_GROUPS);
+        task.assignee =  headers.get(UserTaskHeaders.ASSIGNEE);
+        task.dueDate = fromString(headers.get(UserTaskHeaders.DUE_DATE));
+        task.followUpDate = fromString(headers.get(UserTaskHeaders.FOLLOW_UP_DATE));
+        task.persistAndFlush();
+    }
+
+
 
     public void importMessage(final Record<MessageRecordValue> record) {
         Message m = Message.findById(record.getKey());
@@ -296,7 +312,7 @@ public class ImportDataService {
             m.name = value.getName();
             m.correlationKey = value.getCorrelationKey();
             m.messageId = value.getMessageId();
-            m.payload = toJsonString(value.getVariables());
+            m.variables = toJsonString(value.getVariables());
         }
         // check if message already published
         if (Message.State.PUBLISHED == m.state) {
@@ -332,16 +348,84 @@ public class ImportDataService {
         }
     }
 
-    private byte[] toJsonString(Map<String, Object> data) {
+    public void importSignal(final Record<SignalRecordValue> record) {
+        Signal signal = Signal.findById(record.getKey());
+        if (signal == null) {
+            signal = new Signal();
+            signal.key = record.getKey();
+            signal.position = record.getPosition();
+            signal.partitionId = record.getPartitionId();
+            signal.timestamp = localDateTime(record.getTimestamp());
+            SignalRecordValue value = record.getValue();
+            signal.name = value.getSignalName();
+            signal.variables = toJsonString(value.getVariables());
+            SignalIntent intent = (SignalIntent) record.getIntent();
+            signal.status = Signal.Status.valueOf(intent.name());
+            signal.persistAndFlush();
+        }
+    }
+
+    public void importSignalSubscription(final Record<SignalSubscriptionRecordValue> record) {
+        SignalSubscription signal = SignalSubscription.findById(record.getKey());
+        if (signal == null) {
+            signal = new SignalSubscription();
+            signal.key = record.getKey();
+            signal.position = record.getPosition();
+            signal.partitionId = record.getPartitionId();
+            signal.timestamp = localDateTime(record.getTimestamp());
+            SignalSubscriptionRecordValue value = record.getValue();
+
+            signal.bpmnProcessId = value.getBpmnProcessId();
+            signal.name = value.getSignalName();
+            signal.processDefinitionKey = value.getProcessDefinitionKey();
+            signal.catchEventId = value.getCatchEventId();
+            signal.catchEventInstanceKey = value.getCatchEventInstanceKey();
+
+            SignalSubscriptionIntent intent = (SignalSubscriptionIntent) record.getIntent();
+            signal.status = SignalSubscription.Status.valueOf(intent.name());
+
+            signal.persistAndFlush();
+        }
+    }
+
+    public void importEscalation(final Record<EscalationRecordValue> record) {
+        Escalation escalation = Escalation.findById(record.getKey());
+        if (escalation == null) {
+            escalation = new Escalation();
+            escalation.key = record.getKey();
+            escalation.position = record.getPosition();
+            escalation.partitionId = record.getPartitionId();
+            escalation.timestamp = localDateTime(record.getTimestamp());
+            EscalationRecordValue value = record.getValue();
+            escalation.processInstanceKey = value.getProcessInstanceKey();
+            escalation.catchElementId = value.getCatchElementId();
+            escalation.escalationCode = value.getEscalationCode();
+            escalation.throwElementId = value.getThrowElementId();
+            escalation.persistAndFlush();
+        }
+    }
+
+    private String toJsonString(Map<String, Object> data) {
+        if (data == null) {
+            return null;
+        }
         try {
-            return mapper.writeValueAsBytes(data);
+            return mapper.writeValueAsString(data);
         } catch (Exception ex) {
             throw new RuntimeException("Error convert to json string", ex);
         }
     }
 
     private static LocalDateTime localDateTime(long timestamp) {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), TimeZone.getDefault().toZoneId());
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.systemDefault());
+    }
+
+    private static LocalDateTime fromString(String data) {
+        if (data == null || data.isEmpty()) {
+            return null;
+        }
+        OffsetDateTime odt = OffsetDateTime.parse(data);
+        return LocalDateTime.ofInstant(odt.toInstant(), ZoneOffset.systemDefault());
     }
 
     private static String generateId(final Record<?> record) {

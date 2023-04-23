@@ -26,8 +26,8 @@ public class Message extends PanacheEntityBase {
     @Column(name = "MESSAGE_ID")
     public String messageId;
 
-    @Column(name = "PAYLOAD")
-    public byte[] payload;
+    @Column(name = "VARIABLES")
+    public String variables;
 
     @Column(name = "STATE")
     @Enumerated(EnumType.STRING)

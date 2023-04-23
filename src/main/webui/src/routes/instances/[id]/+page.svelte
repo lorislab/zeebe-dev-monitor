@@ -3,7 +3,7 @@
     import type { PageData} from './$types';
     import BpmnDiagram from '../../../components/BpmnDiagram.svelte';
     import {
-        WrenchScrewdriver, Clock, InformationCircle, Envelope,
+        WrenchScrewdriver, Clock, InformationCircle, Envelope, PresentationChartBar, User,
         ExclamationTriangle, Share, ShieldExclamation, Squares2x2, AcademicCap, ArrowRightOnRectangle
     } from 'svelte-heros-v2';
     import InstanceInfo from "../../../components/Instance/InstanceInfo.svelte";
@@ -17,6 +17,8 @@
     import InstanceCallProcesses from "$components/Instance/InstanceCallProcesses.svelte";
     import InstanceErrors from "$components/Instance/InstanceErrors.svelte";
     import InstanceModify from "$components/Instance/InstanceModify.svelte";
+	import InstanceEscalation from '$components/Instance/InstanceEscalation.svelte';
+	import InstanceUserTask from '$components/Instance/InstanceUserTask.svelte';
 
     export let data: PageData;
     let diagram;
@@ -47,15 +49,23 @@
         <InstanceJobs elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker}/>
     </TabItem>
     <TabItem>
-        <div slot="title" class="flex items-center gap-2"><Envelope class="w-5 h-5 focus:outline-none" />Message subscriptions</div>
+        <div slot="title" class="flex items-center gap-2"><User class="w-5 h-5 focus:outline-none" />User tasks</div>
+        <InstanceUserTask elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker}/>
+    </TabItem>    
+    <TabItem>
+        <div slot="title" class="flex items-center gap-2"><Envelope class="w-5 h-5 focus:outline-none" />Messages</div>
         <InstanceMessageSubscriptions elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
+    <TabItem>
+        <div slot="title" class="flex items-center gap-2"><PresentationChartBar class="w-5 h-5 focus:outline-none" />Escalation</div>
+        <InstanceEscalation elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
+    </TabItem>    
     <TabItem>
         <div slot="title" class="flex items-center gap-2"><Clock class="w-5 h-5 focus:outline-none" />Timers</div>
         <InstanceTimers elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
     <TabItem>
-        <div slot="title" class="flex items-center gap-2"><ArrowRightOnRectangle class="w-5 h-5 focus:outline-none" />Called process instances</div>
+        <div slot="title" class="flex items-center gap-2"><ArrowRightOnRectangle class="w-5 h-5 focus:outline-none" />Called instances</div>
         <InstanceCallProcesses elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
     <TabItem>
@@ -63,7 +73,7 @@
         <InstanceErrors />
     </TabItem>
     <TabItem>
-        <div slot="title" class="flex items-center gap-2"><WrenchScrewdriver class="w-5 h-5 focus:outline-none" />Modify instance</div>
+        <div slot="title" class="flex items-center gap-2"><WrenchScrewdriver class="w-5 h-5 focus:outline-none" />Modify</div>
         <InstanceModify elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
 </Tabs>

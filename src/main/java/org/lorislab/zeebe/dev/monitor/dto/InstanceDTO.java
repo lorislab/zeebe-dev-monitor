@@ -15,4 +15,5 @@ public record InstanceDTO(InstanceDetailDTO detail, String xml, List<ElementInst
                               List<TimerDTO> timers, List<ErrorDTO> errors,
                               List<VariableDTO> variables, List<BpmnElementInfoDTO> bpmnElementInfos,
                               Set<String> completedActivities, List<ElementInstanceDTO> terminateActiveActivities, List<ActivateElementItemDTO> activateActivities,
-                              List<ElementInstanceDTO> ancestorActivities) {}
+                              List<ElementInstanceDTO> ancestorActivities, List<EscalationDTO> escalations,
+                              List<UserTaskDTO> userTasks ) {}

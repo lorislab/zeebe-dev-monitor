@@ -1,4 +1,13 @@
 
+export const colorSignalSubscriptionStatus = {
+    DELETED: 'red',
+    CREATED: 'green'
+}
+
+export const colorSignalStatus = {
+    BROADCAST: 'blue',
+    BROADCASTED: 'green'
+}
 export const colorTimerState = {
     CREATED: 'blue',
     TRIGGER: 'green',
@@ -10,7 +19,7 @@ export const colorIncidentState = {
     CREATED: 'red',
     RESOLVED: 'green'
 }
-export const colorJobState = {
+export const colorJobStatus = {
     CREATED: 'blue',
     COMPLETE: 'green',
     COMPLETED: 'green',

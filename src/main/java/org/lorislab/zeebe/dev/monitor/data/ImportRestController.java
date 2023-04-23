@@ -68,6 +68,7 @@ public class ImportRestController {
 
         for (final Record<?> record : records) {
 //            log.info("Add record {}}/{} ==> {}", record.getValueType(), record.getPosition(), record.getRecordType());
+//            log.info("{}", record);
             if (record.getRecordType() == RecordType.EVENT) {
                 switch (record.getValueType()) {
                     case PROCESS_INSTANCE -> importDataService.importProcessInstance(value(record));
@@ -80,6 +81,9 @@ public class ImportRestController {
                     case JOB -> importDataService.importJob(value(record));
                     case MESSAGE -> importDataService.importMessage(value(record));
                     case VARIABLE -> importDataService.importVariable(value(record));
+                    case SIGNAL -> importDataService.importSignal(value(record));
+                    case SIGNAL_SUBSCRIPTION -> importDataService.importSignalSubscription(value(record));
+                    case ESCALATION -> importDataService.importEscalation(value(record));
                 }
             }
             if (acknowledge) {

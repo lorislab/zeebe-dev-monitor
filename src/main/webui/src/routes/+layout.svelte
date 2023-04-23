@@ -120,6 +120,8 @@
     <NavLi data-testid="menuJobs" href="/jobs" active={route.id === '/jobs'}>Jobs</NavLi>
     <NavLi data-testid="menuMessages" href="/messages" active={route.id === '/messages'}>Messages</NavLi>
     <NavLi data-testid="menuErrors" href="/errors" active={route.id === '/errors'}>Errors</NavLi>
+    <NavLi data-testid="menuSignals" href="/signals" active={route.id === '/signals'}>Signals</NavLi>
+    <NavLi data-testid="menuUserTasks" href="/tasks" active={route.id === '/tasks'}>User tasks</NavLi>
   </NavUl>
 </Navbar>
 

@@ -12,7 +12,7 @@
     import TableSearchBar from "../../components/TableSearchBar.svelte";
     import TablePagerBar from "../../components/TablePagerBar.svelte";
     import {page} from "$app/stores";
-    import {colorJobState} from "$lib/app.js";
+    import {colorJobStatus} from "$lib/app.js";
 
     type Job = {
         key: number;
@@ -50,8 +50,8 @@
                 <TableBodyCell><A href="/instances/{item.processInstanceKey}" class="font-medium hover:underline">{item.processInstanceKey}</A></TableBodyCell>
                 <TableBodyCell>{item.retries}</TableBodyCell>
                 <TableBodyCell>
-                    <Badge color="{colorJobState[item.state]}"  rounded class="px-2.5 py-0.5">
-                        <Indicator color="{colorJobState[item.state]}" size="xs" class="mr-1"/>{item.state}
+                    <Badge color="{colorJobStatus[item.state]}"  rounded class="px-2.5 py-0.5">
+                        <Indicator color="{colorJobStatus[item.state]}" size="xs" class="mr-1"/>{item.state}
                     </Badge>
                 </TableBodyCell>
                 <TableBodyCell>{item.timestamp}</TableBodyCell>

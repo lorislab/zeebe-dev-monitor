@@ -7,4 +7,4 @@ import java.util.List;
 @RegisterForReflection
 public record ProcessDTO(ProcessInfoDTO info, String xml, List<InstanceTableItemDTO> instances,
                          List<TimerDTO> timers, List<MessageSubscriptionDTO> messageSubscriptions,
-                         ProcessInstanceDTO instance) {};
+                         List<SignalSubscriptionDTO> signalSubscriptions, ProcessInstanceDTO instance) {};

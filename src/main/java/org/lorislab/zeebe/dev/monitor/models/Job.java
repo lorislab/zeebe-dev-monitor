@@ -42,6 +42,15 @@ public class Job extends PanacheEntityBase {
     @Column(name = "TIMESTAMP")
     public LocalDateTime timestamp;
 
+    @Column(name = "ERROR_CODE")
+    public String errorCode;
+
+    @Column(name = "ERROR_MESSAGE")
+    public String errorMessage;
+
+    @Column(name = "ELEMENT_ID")
+    public String elementId;
+
     public enum State {
         CREATED, COMPLETE, COMPLETED, TIME_OUT, TIMED_OUT, FAIL, FAILED, UPDATE_RETRIES,
         RETRIES_UPDATED, CANCEL, CANCELED, THROW_ERROR, ERROR_THROWN, RECUR_AFTER_BACKOFF, RECURRED_AFTER_BACKOFF;

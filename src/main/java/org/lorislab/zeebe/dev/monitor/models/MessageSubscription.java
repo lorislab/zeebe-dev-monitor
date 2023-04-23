@@ -49,6 +49,9 @@ public class MessageSubscription extends PanacheEntityBase  {
     @Column(name = "TIMESTAMP")
     public LocalDateTime timestamp;
 
+    @Column(name = "VARIABLES")
+    public String variables;
+
     public enum State {
         CREATING, CREATE, CREATED, CORRELATING, CORRELATE, CORRELATED, REJECT,
         REJECTED, DELETE, DELETED, DELETING;

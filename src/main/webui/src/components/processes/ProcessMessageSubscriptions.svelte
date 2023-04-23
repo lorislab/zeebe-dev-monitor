@@ -58,7 +58,7 @@
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
                     <ButtonGroup>
-                        <Button on:click={sendMessageModel.init(item.messageName)} ><Envelope class="w-4 h-4 mr-2 focus:outline-none" tooltip="Send message"/>Send</Button>
+                        <Button on:click={sendMessageModel.init(item.messageName)} ><Envelope class="w-4 h-4 mr-2 focus:outline-none" tooltip="Send message"/></Button>
                     </ButtonGroup>
                 </TableBodyCell>
             </TableBodyRow>

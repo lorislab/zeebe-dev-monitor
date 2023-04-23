@@ -36,7 +36,7 @@
             })
         ));
 
-    let sendMessageModel;
+    let sendMessageModel: any;
     export let elementMouseOver;
     export let elementMouseOut;
 </script>

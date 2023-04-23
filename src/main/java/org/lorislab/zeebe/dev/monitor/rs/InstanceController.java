@@ -59,6 +59,12 @@ public class InstanceController {
     @Inject
     ElementInstanceMapper elementInstanceMapper;
 
+    @Inject
+    EscalationMapper escalationMapper;
+
+    @Inject
+    UserTaskMapper userTaskMapper;
+
     @GET
     public Response getAll() {
         return Response.ok(tableMapper.tableItems(Instance.list("ORDER BY start DESC"))).build();
@@ -70,7 +76,7 @@ public class InstanceController {
         Instance item = Instance.findById(key);
         String parentBpmnProcessId = null;
         Long parentProcessDefinitionKey = -1L;
-        if (item.parentProcessInstanceKey > 0) {
+        if (item.parentProcessInstanceKey  != null && item.parentProcessInstanceKey > 0) {
             Instance parent = Instance.findById(item.parentProcessInstanceKey);
             if (parent != null) {
                 parentProcessDefinitionKey = parent.processDefinitionKey;
@@ -186,6 +192,11 @@ public class InstanceController {
         // messageSubscriptions
         List<MessageSubscriptionDTO> messageSubscriptions = messageSubscriptionMapper.messages2(MessageSubscription.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).stream(), elementIdsForKeys);
 
+        // timers
+        List<EscalationDTO> escalations = escalationMapper.escalations(Escalation.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
+
+        List<UserTaskDTO> userTasks = userTaskMapper.userTasks(UserTask.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
+
         // audit log
         final List<ActivateElementItemDTO> activateActivities = new ArrayList<>();
         final var bpmn = BpmnModel.loadModel(xml);
@@ -213,7 +224,8 @@ public class InstanceController {
                 detail, new String(xml.resource), elementStates, activeScopes, activeActivities, takenSequenceFlows, auditLogEntries,
                 incidentActivities, callProcessInstances, incidents, jobs,
                 messageSubscriptions, timers, errors, variables,
-                bpmnElementInfos, completedItems, terminateActiveActivities, activateActivities, ancestorActivities);
+                bpmnElementInfos, completedItems, terminateActiveActivities, activateActivities, ancestorActivities,
+                escalations, userTasks);
 
         return Response.ok(result).build();
     }
