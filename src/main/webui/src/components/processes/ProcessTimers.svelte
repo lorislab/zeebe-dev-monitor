@@ -9,6 +9,7 @@
         Badge,
         Indicator
     } from 'flowbite-svelte';
+    import { CursorArrowRays} from "svelte-heros-v2";
     import TablePagerBar from "../TablePagerBar.svelte";
     import TableSearchBar from "../TableSearchBar.svelte";
     import { createSearchTableStore } from "../../lib/stores/search";
@@ -30,7 +31,9 @@
                 searchTerms: `${item.targetElementId} ${item.state}`
             })
         ));
-
+    
+    export let elementMouseOver;
+    export let elementMouseOut;
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
@@ -45,7 +48,7 @@
     <TableBody tableBodyClass="divide-y">
         {#each $searchTableStore.paged as item}
             <TableBodyRow>
-                <TableBodyCell>{item.targetElementId}</TableBodyCell>
+                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.targetElementId)} on:mouseout={elementMouseOut(item.targetElementId)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.targetElementId}</TableBodyCell>
                 <TableBodyCell>{item.dueDate}</TableBodyCell>
                 <TableBodyCell>{item.repetitions}</TableBodyCell>
                 <TableBodyCell>

@@ -2,7 +2,7 @@
     import {Modal, Button } from "flowbite-svelte";
     import {ExclamationCircle} from "svelte-heros-v2";
     import {page} from "$app/stores";
-    export let open;
+    export let open: boolean;
 
     async function cancelProcessInstance() {
         const res = await fetch('/api/instance/' + $page.params.id, {

@@ -1,15 +1,16 @@
 <script lang="ts">
     import {Modal, Button, Textarea, Label, Input} from "flowbite-svelte";
     import {Play} from "svelte-heros-v2";
+	import type { UserTask } from "../../models/UserTask.model";
 
-    let open;
+    let open: boolean;
 
-    let parameters;
-    let userTask;
+    let parameters: string | undefined;
+    let userTask: UserTask;
 
-    export function init(_userTask) {
+    export function init(_userTask: UserTask) {
         userTask = _userTask;
-        parameters = null;
+        parameters = undefined;
         open = true;
     }
 
@@ -42,7 +43,11 @@
         <div>
             <Label for="msg_users" class="mb-2">Candidate Users</Label>
             <Input type="text" id="msg_users" disabled='true' placeholder="Candidate Users" value={userTask.users}/>
-        </div>        
+        </div>    
+        <div>
+            <Label for="msg_var" class="mb-2">Variables</Label>
+            <Textarea type="text" id="msg_var" disabled='true' placeholder="Input variables" value={userTask.variables}/>
+        </div>             
         <Label class="space-y-2 mb-4">
             <span>Parameters</span>
             <Textarea bind:value={parameters} id="parameters" placeholder={JSON.stringify({param1: "value", param2: 100})} rows="4" name="parameters"/>

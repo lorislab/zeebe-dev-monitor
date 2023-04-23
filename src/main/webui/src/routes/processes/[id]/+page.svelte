@@ -11,10 +11,10 @@
     import ProcessTimers from "../../../components/processes/ProcessTimers.svelte";
 
     export let data: PageData;
-
+    let diagram;
 </script>
 
-<BpmnDiagram xml={data.process.xml} instance={data.process.instance} />
+<BpmnDiagram bind:this={diagram} xml={data.process.xml} instance={data.process.instance} />
 
 <Tabs style="underline" contentClass='p-4 rounded-lg mt-4'>
     <TabItem open>
@@ -27,14 +27,14 @@
     </TabItem>
     <TabItem>
         <div slot="title" class="flex items-center gap-2"><Envelope class="w-5 h-5 focus:outline-none" />Message subscriptions</div>
-        <ProcessMessageSubscriptions />
+        <ProcessMessageSubscriptions elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
     <TabItem>
         <div slot="title" class="flex items-center gap-2"><Envelope class="w-5 h-5 focus:outline-none" />Signal subscriptions</div>
-        <ProcessSignalSubscriptions />
+        <ProcessSignalSubscriptions elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem> 
     <TabItem>
         <div slot="title" class="flex items-center gap-2"><Clock class="w-5 h-5 focus:outline-none"/>Timers</div>
-        <ProcessTimers />
+        <ProcessTimers elementMouseOver={diagram.addElementSelectedMarker} elementMouseOut={diagram.removeElementSelectedMarker} />
     </TabItem>
 </Tabs>

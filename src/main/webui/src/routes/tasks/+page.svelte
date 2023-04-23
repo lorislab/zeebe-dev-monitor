@@ -16,26 +16,7 @@
     import {page} from "$app/stores";
     import {colorJobStatus} from "$lib/app.js";
 	import CompleteUserTaskModal from '$components/Instance/CompleteUserTaskModal.svelte';
-
-    type UserTask = {
-        key: number
-        jobType: string
-        status: string
-        worker: string
-        retries: number
-        elementId: string
-        elementInstanceKey: number
-        processInstanceKey: number
-        errorCode: string
-        errorMessage: string
-        groups: string
-        users: string
-        assignee: string
-        dueDate: string
-        followUpDate: string
-        isActivatable: boolean
-        searchTerms: string
-    }
+	import type { UserTask } from '../../models/UserTask.model';
 
     const searchTableStore = createSearchTableStore<UserTask>(page,
         $p => $p.data.items.map((item: UserTask) => ({
@@ -44,19 +25,19 @@
             })
         ), 10);
 
-    let completeModal;
+    let completeModal: CompleteUserTaskModal;
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
 <Table data-testid="userTasksTable" hoverable={true} divClass='relative overflow-x-auto border rounded-lg'>
     <TableHead>
-        <TableHeadCell>Process Instance Key</TableHeadCell>
-        <TableHeadCell>Element Id</TableHeadCell>
+        <TableHeadCell>Instance Key</TableHeadCell>
+        <TableHeadCell>Element</TableHeadCell>
         <TableHeadCell>Users</TableHeadCell>
         <TableHeadCell>Groups</TableHeadCell>
         <TableHeadCell>Assignee</TableHeadCell>
         <TableHeadCell>Due Date</TableHeadCell>
-        <TableHeadCell>Follow Up Date</TableHeadCell>
+        <TableHeadCell>Follow Up</TableHeadCell>
         <TableHeadCell>State</TableHeadCell>
         <TableHeadCell>Time</TableHeadCell>
         <TableHeadCell>Actions</TableHeadCell>

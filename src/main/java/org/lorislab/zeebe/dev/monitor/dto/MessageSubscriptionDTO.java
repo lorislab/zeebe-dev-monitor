@@ -7,6 +7,6 @@ import java.time.OffsetDateTime;
 
 @RegisterForReflection
 public record MessageSubscriptionDTO(String id, String messageName, String correlationKey,
-                                     String targetFlowNodeId, Long elementInstanceKey, Long processInstanceKey, MessageSubscription.State state,
+                                     String elementId, Long elementInstanceKey, Long processInstanceKey, MessageSubscription.State state,
                                      OffsetDateTime timestamp, boolean open) {}
 

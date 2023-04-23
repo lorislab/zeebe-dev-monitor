@@ -39,9 +39,6 @@ public class MessageSubscription extends PanacheEntityBase  {
     @Column(name = "PROCESS_DEFINITION_KEY")
     public Long processDefinitionKey;
 
-    @Column(name = "TARGET_FLOW_NODE_ID")
-    public String targetFlowNodeId;
-
     @Column(name = "STATE")
     @Enumerated(EnumType.STRING)
     public State state;
@@ -51,6 +48,9 @@ public class MessageSubscription extends PanacheEntityBase  {
 
     @Column(name = "VARIABLES")
     public String variables;
+
+    @Column(name = "ELEMENT_ID")
+    public String elementId;
 
     public enum State {
         CREATING, CREATE, CREATED, CORRELATING, CORRELATE, CORRELATED, REJECT,

@@ -1,15 +1,16 @@
 <script lang="ts">
     import {Modal, Button, Textarea, Label} from "flowbite-svelte";
     import {Play} from "svelte-heros-v2";
+	import type { Job } from "../../models/Job.model";
 
-    let open;
+    let open: boolean;
 
-    let parameters;
-    let job;
+    let parameters: string | undefined;
+    let job: Job;
 
-    export function init(_job) {
+    export function init(_job: Job) {
         job = _job;
-        parameters = null;
+        parameters = undefined;
         open = true;
     }
 
@@ -31,6 +32,10 @@
     <div >
         <Play class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" size="60"/>
         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Complete '{job.jobType}' job</h3>
+        <div>
+            <Label for="msg_var" class="mb-2">Variables</Label>
+            <Textarea type="text" id="msg_var" disabled='true' placeholder="Input variables" value={job.variables}/>
+        </div>         
         <Label class="space-y-2 mb-4">
             <span>Parameters</span>
             <Textarea bind:value={parameters} id="parameters" placeholder={JSON.stringify({param1: "value", param2: 100})} rows="4" name="parameters"/>

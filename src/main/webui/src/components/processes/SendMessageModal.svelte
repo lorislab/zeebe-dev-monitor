@@ -59,6 +59,6 @@
             <span>Parameters</span>
             <Textarea bind:value={parameters} id="parameters" placeholder={JSON.stringify({param1: "value", param2: 100})} rows="4" name="parameters"/>
         </Label>
-        <Button on:click={sendMessage} >Send</Button>
+        <Button on:click={sendMessage} disabled='{!key || !duration}'>Send</Button>
     </form>
 </Modal>

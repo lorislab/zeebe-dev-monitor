@@ -16,26 +16,9 @@
     import TableSearchBar from "$components/TableSearchBar.svelte";
     import TablePagerBar from "$components/TablePagerBar.svelte";
 	import CompleteUserTaskModal from './CompleteUserTaskModal.svelte';
+	import type { UserTask } from '../../models/UserTask.model';
 
-    type UserTask = {
-        key: number
-        jobType: string
-        status: string
-        worker: string
-        retries: number
-        elementId: string
-        elementInstanceKey: number
-        processInstanceKey: number
-        errorCode: string
-        errorMessage: string
-        groups: string
-        users: string
-        assignee: string
-        dueDate: string
-        followUpDate: string
-        isActivatable: boolean
-        searchTerms: string
-    }
+
 
     const searchTableStore = createSearchTableStore<UserTask>(page,
         $p => $p.data.instance.userTasks.map((item: UserTask) => ({
@@ -44,10 +27,10 @@
             })
         ));
 
-    export let elementMouseOver;
-    export let elementMouseOut;
+    export let elementMouseOver: any;
+    export let elementMouseOut: any;
 
-    let completeModal;
+    let completeModal: CompleteUserTaskModal;
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
@@ -80,7 +63,7 @@
                 <TableBodyCell>{item.timestamp}</TableBodyCell>
                 <TableBodyCell>
                     <ButtonGroup>
-                        <Button on:click={completeModal.init(item)} title="Complete job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        <Button on:click={() => completeModal.init(item)} title="Complete job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
                     </ButtonGroup>
                 </TableBodyCell>                
             </TableBodyRow>

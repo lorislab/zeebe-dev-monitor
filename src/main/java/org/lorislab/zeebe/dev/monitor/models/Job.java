@@ -51,6 +51,9 @@ public class Job extends PanacheEntityBase {
     @Column(name = "ELEMENT_ID")
     public String elementId;
 
+    @Column(name = "VARIABLES")
+    public String variables;
+
     public enum State {
         CREATED, COMPLETE, COMPLETED, TIME_OUT, TIMED_OUT, FAIL, FAILED, UPDATE_RETRIES,
         RETRIES_UPDATED, CANCEL, CANCELED, THROW_ERROR, ERROR_THROWN, RECUR_AFTER_BACKOFF, RECURRED_AFTER_BACKOFF;

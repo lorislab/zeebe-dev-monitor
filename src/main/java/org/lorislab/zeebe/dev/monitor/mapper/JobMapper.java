@@ -12,22 +12,10 @@ import java.util.Map;
 @Mapper(uses = OffsetDateTimeMapper.class)
 public abstract class JobMapper {
 
-
-    public List<JobDTO> jobs(List<Job> jobs, Map<Long, String> elementIdsForKeys) {
-        if (jobs == null) {
-            return null;
-        }
-        return jobs.stream()
-                .map(x -> job(x, elementIdsForKeys.getOrDefault(x.elementInstanceKey, "")))
-                .toList();
-    }
-
     public abstract List<JobDTO> jobs(List<Job> jobs);
 
-    public abstract JobDTO job(Job job);
-
     @Mapping(target = "isActivatable", source ="job", qualifiedByName = "isActivatable")
-    public abstract JobDTO job(Job job, String elementId);
+    public abstract JobDTO job(Job job);
 
     @Named("isActivatable")
     boolean isActivatable(Job job) {

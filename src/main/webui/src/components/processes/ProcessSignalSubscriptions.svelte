@@ -8,7 +8,7 @@
         TableBodyRow,
         ButtonGroup, Table, Badge, Indicator
     } from 'flowbite-svelte';
-    import {Megaphone} from "svelte-heros-v2";
+    import {Megaphone, CursorArrowRays} from "svelte-heros-v2";
     import TableSearchBar from "../TableSearchBar.svelte";
     import TablePagerBar from "../TablePagerBar.svelte";
     import {createSearchTableStore } from "../../lib/stores/search";
@@ -36,7 +36,8 @@
         ));
 
     let sendSignalModel;
-
+    export let elementMouseOver;
+    export let elementMouseOut;
 </script>
 
 
@@ -53,7 +54,7 @@
     <TableBody tableBodyClass="divide-y">
         {#each $searchTableStore.paged as item}
             <TableBodyRow>
-                <TableBodyCell>{item.catchEventId}</TableBodyCell>
+                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.catchEventId)} on:mouseout={elementMouseOut(item.catchEventId)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.catchEventId}</TableBodyCell>
                 <TableBodyCell>{item.catchEventInstanceKey}</TableBodyCell>
                 <TableBodyCell>{item.name}</TableBodyCell>
                 <TableBodyCell>

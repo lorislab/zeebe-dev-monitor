@@ -28,7 +28,7 @@ public class JobController {
 
     @GET
     public Response getAll() {
-        List<Job> jobs = Job.find("state not in :state ORDER BY timestamp DESC", Parameters.with("state", List.of(Job.State.COMPLETED, Job.State.CANCELED)).map()).list();
+        List<Job> jobs = Job.find("ORDER BY timestamp DESC").list();
         return Response.ok(jobMapper.jobs(jobs)).build();
     }
 
@@ -52,6 +52,16 @@ public class JobController {
         client.newThrowErrorCommand(key).errorCode(dto.errorCode).errorMessage(dto.errorMessage).send().join();
         return Response.ok().build();
     }
+
+    @PUT
+    @Path("{key}/retries")
+    public Response retries(@PathParam("key") long key, JobRetriesDTO dto) {
+        client.newUpdateRetriesCommand(key).retries(dto.retries).send().join();
+        return Response.ok().build();
+    }
+
+    @RegisterForReflection
+    public record JobRetriesDTO(int retries) {};
 
     @RegisterForReflection
     public record JobFailDTO(String errorMessage, int retries) {};

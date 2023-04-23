@@ -20,7 +20,7 @@
         id: string
         messageName: string
         correlationKey: string
-        targetFlowNodeId: string
+        elementId: string
         elementInstanceKey: number
         processInstanceKey: number
         state: string
@@ -54,7 +54,7 @@
     <TableBody tableBodyClass="divide-y">
         {#each $searchTableStore.paged as item}
             <TableBodyRow>
-                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.targetFlowNodeId)} on:mouseout={elementMouseOut(item.targetFlowNodeId)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.targetFlowNodeId}</TableBodyCell>
+                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.elementId)} on:mouseout={elementMouseOut(item.elementId)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.elementId}</TableBodyCell>
                 <TableBodyCell>{item.messageName}</TableBodyCell>
                 <TableBodyCell>{item.correlationKey}</TableBodyCell>
                 <TableBodyCell>

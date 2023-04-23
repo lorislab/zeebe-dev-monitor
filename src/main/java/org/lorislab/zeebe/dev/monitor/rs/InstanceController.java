@@ -178,7 +178,7 @@ public class InstanceController {
         BpmnXmlResource xml = BpmnXmlResource.findById(item.processDefinitionKey);
 
         // jobs
-        List<JobDTO> jobs = jobMapper.jobs(Job.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list(), elementIdsForKeys);
+        List<JobDTO> jobs = jobMapper.jobs(Job.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
 
         // variables
         List<VariableDTO> variables = variableMapper.variables(Variable.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).stream(), elementIdsForKeys);
@@ -190,7 +190,7 @@ public class InstanceController {
         List<TimerDTO> timers = timerMapper.timers(Timer.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
 
         // messageSubscriptions
-        List<MessageSubscriptionDTO> messageSubscriptions = messageSubscriptionMapper.messages2(MessageSubscription.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).stream(), elementIdsForKeys);
+        List<MessageSubscriptionDTO> messageSubscriptions = messageSubscriptionMapper.messages(MessageSubscription.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());
 
         // timers
         List<EscalationDTO> escalations = escalationMapper.escalations(Escalation.find("processInstanceKey = ?1 ORDER BY timestamp DESC", item.key).list());

@@ -61,6 +61,9 @@ public class UserTask extends PanacheEntityBase {
     @Column(name = "ERROR_MESSAGE")
     public String errorMessage;
 
+    @Column(name = "VARIABLES")
+    public String variables;
+
     public enum Status {
         CREATED, COMPLETE, COMPLETED, TIME_OUT, TIMED_OUT, FAIL, FAILED, UPDATE_RETRIES,
         RETRIES_UPDATED, CANCEL, CANCELED, THROW_ERROR, ERROR_THROWN, RECUR_AFTER_BACKOFF, RECURRED_AFTER_BACKOFF;

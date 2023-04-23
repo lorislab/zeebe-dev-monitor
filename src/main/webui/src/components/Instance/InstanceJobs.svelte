@@ -10,7 +10,7 @@
     } from 'flowbite-svelte';
 
     import {colorJobStatus} from "$lib/app.js";
-    import {Bolt, CursorArrowRays, NoSymbol, Play} from "svelte-heros-v2";
+    import {Bolt, CursorArrowRays, NoSymbol, Play, PlusCircle} from "svelte-heros-v2";
     import {createSearchTableStore} from "../../lib/stores/search";
     import {page} from "$app/stores";
     import TableSearchBar from "$components/TableSearchBar.svelte";
@@ -18,22 +18,9 @@
     import CompleteJobModal from "$components/Instance/CompleteJobModal.svelte";
     import FailJobModal from "$components/Instance/FailJobModal.svelte";
     import ThrowErrorJobModal from "$components/Instance/ThrowErrorJobModal.svelte";
-
-
-    type Job = {
-        key: number
-        jobType: string
-        state: string
-        worker: string
-        errorCode: string
-        errorMessage: string
-        retries: number
-        elementId: string
-        elementInstanceKey: number
-        processInstanceKey: number
-        timestamp: string
-        isActivatable: boolean
-    }
+	import type { Job } from '../../models/Job.model';
+	import RetriesJobModal from './RetriesJobModal.svelte';
+	import { init } from 'svelte/internal';
 
     const searchTableStore = createSearchTableStore<Job>(page,
         $p => $p.data.instance.jobs.map((item: Job) => ({
@@ -42,12 +29,13 @@
             })
         ));
 
-    export let elementMouseOver;
-    export let elementMouseOut;
+    export let elementMouseOver: any;
+    export let elementMouseOut: any;
 
     let completeModal;
     let failModal;
     let throwErrorModal;
+    let retriesModal: RetriesJobModal;
 </script>
 
 <TableSearchBar searchStore={searchTableStore} />
@@ -83,6 +71,7 @@
                         <Button on:click={completeModal.init(item)} title="Complete job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Play class="w-4 h-4 focus:outline-none inline-flex"/></Button>
                         <Button on:click={failModal.init(item)} title="Fail job" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><NoSymbol class="w-4 h-4 focus:outline-none inline-flex"/></Button>
                         <Button on:click={throwErrorModal.init(item)} title="Throw error" disabled='{!item.isActivatable || !$page.data.instance.detail.isRunning}'><Bolt class="w-4 h-4 focus:outline-none inline-flex"/></Button>
+                        <Button on:click={() => retriesModal.init(item)} title="Update retries" disabled='{!$page.data.instance.detail.isRunning}'><PlusCircle class="w-4 h-4 focus:outline-none inline-flex"/></Button>
                     </ButtonGroup>
                 </TableBodyCell>
             </TableBodyRow>
@@ -94,3 +83,4 @@
 <CompleteJobModal bind:this={completeModal} />
 <FailJobModal bind:this={failModal} />
 <ThrowErrorJobModal bind:this={throwErrorModal} />
+<RetriesJobModal bind:this={retriesModal} />

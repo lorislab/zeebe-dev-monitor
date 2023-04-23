@@ -8,7 +8,7 @@
         TableBodyRow,
         ButtonGroup, Table, Badge, Indicator
     } from 'flowbite-svelte';
-    import {Envelope} from "svelte-heros-v2";
+    import {Envelope, CursorArrowRays} from "svelte-heros-v2";
     import SendMessageModal from "./SendMessageModal.svelte";
     import TableSearchBar from "../TableSearchBar.svelte";
     import TablePagerBar from "../TablePagerBar.svelte";
@@ -17,7 +17,7 @@
     import {colorMessageSubscriptionState} from "$lib/app.js";
 
     type Message = {
-        targetFlowNodeId: number;
+        elementId: number;
         messageName: string;
         state: string;
         timestamp: string;
@@ -32,7 +32,8 @@
         ));
 
     let sendMessageModel;
-
+    export let elementMouseOver;
+    export let elementMouseOut;
 </script>
 
 
@@ -48,7 +49,7 @@
     <TableBody tableBodyClass="divide-y">
         {#each $searchTableStore.paged as item}
             <TableBodyRow>
-                <TableBodyCell>{item.targetFlowNodeId}</TableBodyCell>
+                <TableBodyCell><CursorArrowRays on:mouseover={elementMouseOver(item.elementId)} on:mouseout={elementMouseOut(item.elementId)} class="w-5 h-5 mr-2 -ml-1 focus:outline-none inline-flex"/>{item.elementId}</TableBodyCell>
                 <TableBodyCell>{item.messageName}</TableBodyCell>
                 <TableBodyCell>
                     <Badge color="{colorMessageSubscriptionState[item.state]}"  rounded class="px-2.5 py-0.5">

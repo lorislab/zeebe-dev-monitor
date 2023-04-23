@@ -175,10 +175,10 @@ public class ImportDataService {
                     MessageSubscription tmp = new MessageSubscription();
                     tmp.id = UUID.randomUUID().toString();
                     tmp.elementInstanceKey = value.getElementInstanceKey();
+                    tmp.elementId = value.getElementId();
                     tmp.messageName = value.getMessageName();
                     tmp.correlationKey = value.getCorrelationKey();
                     tmp.processInstanceKey = value.getProcessInstanceKey();
-                    tmp.targetFlowNodeId = value.getElementId();
                     tmp.variables = toJsonString(value.getVariables());
                     return tmp;
                 });
@@ -197,7 +197,7 @@ public class ImportDataService {
                     tmp.id = UUID.randomUUID().toString();
                     tmp.messageName = value.getMessageName();
                     tmp.processDefinitionKey = value.getProcessDefinitionKey();
-                    tmp.targetFlowNodeId = value.getStartEventId();
+                    tmp.elementId = value.getStartEventId();
                     tmp.variables = toJsonString(value.getVariables());
                     return tmp;
                 });
@@ -271,6 +271,7 @@ public class ImportDataService {
         job.retries = value.getRetries();
         job.errorCode = value.getErrorCode();
         job.errorMessage = value.getErrorMessage();
+        job.variables = toJsonString(value.getVariables());
         job.persistAndFlush();
     }
 
@@ -298,6 +299,7 @@ public class ImportDataService {
         task.assignee =  headers.get(UserTaskHeaders.ASSIGNEE);
         task.dueDate = fromString(headers.get(UserTaskHeaders.DUE_DATE));
         task.followUpDate = fromString(headers.get(UserTaskHeaders.FOLLOW_UP_DATE));
+        task.variables = toJsonString(value.getVariables());
         task.persistAndFlush();
     }
 
