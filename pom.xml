@@ -12,16 +12,16 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <quarkus.version>3.2.0.Final</quarkus.version>
+        <quarkus.version>3.2.2.Final</quarkus.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <camunda.version>8.2.8</camunda.version>
         <quarkus.zeebe.version>1.0.1</quarkus.zeebe.version>
         <quarkus.sqlite.version>3.0.5</quarkus.sqlite.version>
-        <selenide.version>6.16.0</selenide.version>
+        <selenide.version>6.16.1</selenide.version>
         <zeebe.testcontainers.version>3.6.0</zeebe.testcontainers.version>
-        <quarkus.quinoa.version>2.0.4</quarkus.quinoa.version>
+        <quarkus.quinoa.version>2.0.8</quarkus.quinoa.version>
     </properties>
 
     <dependencyManagement>
