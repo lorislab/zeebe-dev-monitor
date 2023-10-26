@@ -16,12 +16,12 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
-        <camunda.version>8.2.8</camunda.version>
+        <camunda.version>8.3.1</camunda.version>
         <quarkus.zeebe.version>1.1.0</quarkus.zeebe.version>
-        <quarkus.sqlite.version>3.0.5</quarkus.sqlite.version>
-        <selenide.version>6.17.0</selenide.version>
+        <quarkus.sqlite.version>3.0.6</quarkus.sqlite.version>
+        <selenide.version>7.0.0</selenide.version>
         <zeebe.testcontainers.version>3.6.0</zeebe.testcontainers.version>
-        <quarkus.quinoa.version>2.1.0</quarkus.quinoa.version>
+        <quarkus.quinoa.version>2.2.1</quarkus.quinoa.version>
     </properties>
 
     <dependencyManagement>
