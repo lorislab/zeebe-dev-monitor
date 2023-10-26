@@ -72,7 +72,8 @@ public class ImportRestController {
             if (record.getRecordType() == RecordType.EVENT) {
                 switch (record.getValueType()) {
                     case PROCESS_INSTANCE -> importDataService.importProcessInstance(value(record));
-                    case DEPLOYMENT -> importDataService.importWorkflowProcess(value(record));
+                    case PROCESS -> importDataService.importProcess(value(record));
+//                    case DEPLOYMENT -> importDataService.importWorkflowProcess(value(record));
                     case TIMER -> importDataService.importTimer(value(record));
                     case PROCESS_MESSAGE_SUBSCRIPTION -> importDataService.importMessageSubscription(value(record));
                     case MESSAGE_START_EVENT_SUBSCRIPTION -> importDataService.importMessageStartEventSubscription(value(record));

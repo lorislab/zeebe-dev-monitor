@@ -7,6 +7,7 @@ import io.camunda.zeebe.protocol.record.intent.*;
 import io.camunda.zeebe.protocol.record.value.*;
 import io.camunda.zeebe.protocol.record.value.deployment.DeploymentResource;
 import io.camunda.zeebe.protocol.record.value.deployment.ProcessMetadataValue;
+import io.camunda.zeebe.protocol.record.value.deployment.Process;
 import org.lorislab.zeebe.dev.monitor.models.*;
 import org.lorislab.zeebe.dev.monitor.models.Error;
 import org.lorislab.zeebe.dev.monitor.ws.NotificationService;
@@ -18,9 +19,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -145,6 +144,33 @@ public class ImportDataService {
         dr.key = entity.key;
         dr.resource = resource;
         dr.persistAndFlush();
+    }
+
+    public void importProcess(final Record<Process> record) {
+        if (record.getPartitionId() != Protocol.DEPLOYMENT_PARTITION) {
+            return;
+        }
+        Process value = record.getValue();
+
+        Definition def = Definition.findById(value.getProcessDefinitionKey());
+        if (def != null) {
+            //TODO: check version and duplicates
+            return;
+        }
+        Definition entity = new Definition();
+        entity.key = value.getProcessDefinitionKey();
+        entity.bpmnProcessId = value.getBpmnProcessId();
+        entity.version = value.getVersion();
+        entity.timestamp = localDateTime(record.getTimestamp());
+        entity.persistAndFlush();
+
+        BpmnXmlResource dr = new BpmnXmlResource();
+        dr.name = value.getResourceName();
+        dr.key = entity.key;
+        dr.resource = value.getResource();
+        dr.persistAndFlush();
+
+        instanceNotificationService.sendEvent(new NotificationService.ProcessEvent(NotificationService.ProcessEventType.DEPLOYED));
     }
 
     public void importTimer(final Record<TimerRecordValue> record) {
