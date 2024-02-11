@@ -9,17 +9,17 @@
 
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 
-        <quarkus.version>3.2.3.Final</quarkus.version>
+        <quarkus.version>3.7.2</quarkus.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <surefire-plugin.version>3.2.2</surefire-plugin.version>
-        <camunda.version>8.3.1</camunda.version>
-        <quarkus.zeebe.version>1.2.0</quarkus.zeebe.version>
-        <quarkus.sqlite.version>3.0.6</quarkus.sqlite.version>
-        <selenide.version>7.0.2</selenide.version>
+        <camunda.version>8.4.2</camunda.version>
+        <quarkus.zeebe.version>1.3.0</quarkus.zeebe.version>
+        <quarkus.sqlite.version>3.0.7</quarkus.sqlite.version>
+        <selenide.version>7.1.0</selenide.version>
         <zeebe.testcontainers.version>3.6.0</zeebe.testcontainers.version>
         <quarkus.quinoa.version>2.2.1</quarkus.quinoa.version>
     </properties>
@@ -93,8 +93,8 @@
         </dependency>
         <!-- NATIVE -->
         <dependency>
-            <groupId>org.graalvm.nativeimage</groupId>
-            <artifactId>svm</artifactId>
+            <groupId>org.graalvm.sdk</groupId>
+            <artifactId>graal-sdk</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- TEST -->
