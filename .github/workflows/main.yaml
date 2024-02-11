@@ -39,6 +39,7 @@ jobs:
       - name: Build and test project
         run: mvn --batch-mode clean verify -Pnative
         env:
+          QUARKUS_CONTAINER_IMAGE_ADDITIONAL_TAGS: 'latest'
           QUARKUS_CONTAINER_IMAGE_PUSH: 'true'
           QUARKUS_CONTAINER_IMAGE_TAG: ${{ github.ref_name }}
           QUARKUS_APPLICATION_VERSION: ${{ github.ref_name }}
