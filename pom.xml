@@ -20,7 +20,7 @@
         <quarkus.zeebe.version>1.3.0</quarkus.zeebe.version>
         <quarkus.sqlite.version>3.0.7</quarkus.sqlite.version>
         <selenide.version>7.2.0</selenide.version>
-        <zeebe.testcontainers.version>3.6.0</zeebe.testcontainers.version>
+        <zeebe.testcontainers.version>3.6.3</zeebe.testcontainers.version>
         <quarkus.quinoa.version>2.2.1</quarkus.quinoa.version>
     </properties>
 
