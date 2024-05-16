@@ -1,3 +1,8 @@
+# !DEPRECATED!
+
+This project has been merged into the [Quarkus-Zeebe](https://github.com/quarkiverse/quarkus-zeebe) extension.
+
+
 # zeebe-dev-monitor
 
 Zeebe developer monitor build with [Quarkus](https://quarkus.io/) for local development. It uses in memory database [SQLite](https://www.sqlite.org/) to store the 
